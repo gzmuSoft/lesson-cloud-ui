@@ -1,15 +1,17 @@
 <template lang="pug">
-  v-app
-    v-fade-transition(hide-on-leave)
-      router-view
+  #studnet-main
+    p main
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: 'Index',
   data: () => ({
     //
   })
 }
 </script>
+
+<style scoped lang="stylus">
+
+</style>
