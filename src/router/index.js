@@ -19,6 +19,17 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '@/views/student/main')
       }
     ]
+  },
+  {
+    path: '/teacher',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/teacher'),
+    children: [
+      {
+        path: '',
+        name: 'teacher',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/teacher/main')
+      }
+    ]
   }
 ]
 
