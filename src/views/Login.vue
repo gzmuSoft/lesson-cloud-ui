@@ -1,7 +1,7 @@
 <template lang="pug">
   #lesson-login.fill-height.mx-auto.justify-center.align-center.d-flex.flex-column
-    .loadingio-spinner-bean-eater-1u5h2a7mtl6
-      .ldio-s37vhufcba8
+    .loading-spinner
+      .loading-io
         div
           div
           div
@@ -62,20 +62,20 @@ export default {
 </script>
 
 <style scoped>
-@keyframes ldio-s37vhufcba8-1 {
+@keyframes eat-1 {
   0% { transform: rotate(0deg) }
   50% { transform: rotate(-45deg) }
   100% { transform: rotate(0deg) }
 }
-@keyframes ldio-s37vhufcba8-2 {
+@keyframes eat-2 {
   0% { transform: rotate(180deg) }
   50% { transform: rotate(225deg) }
   100% { transform: rotate(180deg) }
 }
-.ldio-s37vhufcba8 > div:nth-child(2) {
+.loading-io > div:nth-child(2) {
   transform: translate(-15px,0);
 }
-.ldio-s37vhufcba8 > div:nth-child(2) div {
+.loading-io > div:nth-child(2) div {
   position: absolute;
   top: 40px;
   left: 40px;
@@ -83,24 +83,24 @@ export default {
   height: 60px;
   border-radius: 120px 120px 0 0;
   background: #f8b26a;
-  animation: ldio-s37vhufcba8-1 1s linear infinite;
+  animation: eat-1 1s linear infinite;
   transform-origin: 60px 60px
 }
-.ldio-s37vhufcba8 > div:nth-child(2) div:nth-child(2) {
-  animation: ldio-s37vhufcba8-2 1s linear infinite
+.loading-io > div:nth-child(2) div:nth-child(2) {
+  animation: eat-2 1s linear infinite
 }
-.ldio-s37vhufcba8 > div:nth-child(2) div:nth-child(3) {
+.loading-io > div:nth-child(2) div:nth-child(3) {
   transform: rotate(-90deg);
   animation: none;
-}@keyframes ldio-s37vhufcba8-3 {
+}@keyframes loading-io-3 {
    0% { transform: translate(190px,0); opacity: 0 }
    20% { opacity: 1 }
    100% { transform: translate(70px,0); opacity: 1 }
  }
-.ldio-s37vhufcba8 > div:nth-child(1) {
+.loading-io > div:nth-child(1) {
   display: block;
 }
-.ldio-s37vhufcba8 > div:nth-child(1) div {
+.loading-io > div:nth-child(1) div {
   position: absolute;
   top: 92px;
   left: -8px;
@@ -108,18 +108,18 @@ export default {
   height: 16px;
   border-radius: 50%;
   background: #e15b64;
-  animation: ldio-s37vhufcba8-3 1s linear infinite
+  animation: loading-io-3 1s linear infinite
 }
-.ldio-s37vhufcba8 > div:nth-child(1) div:nth-child(1) { animation-delay: -0.67s }
-.ldio-s37vhufcba8 > div:nth-child(1) div:nth-child(2) { animation-delay: -0.33s }
-.ldio-s37vhufcba8 > div:nth-child(1) div:nth-child(3) { animation-delay: 0s }
-.loadingio-spinner-bean-eater-1u5h2a7mtl6 {
+.loading-io > div:nth-child(1) div:nth-child(1) { animation-delay: -0.67s }
+.loading-io > div:nth-child(1) div:nth-child(2) { animation-delay: -0.33s }
+.loading-io > div:nth-child(1) div:nth-child(3) { animation-delay: 0s }
+.loading-spinner {
   width: 200px;
   height: 200px;
   display: inline-block;
   overflow: hidden;
 }
-.ldio-s37vhufcba8 {
+.loading-io {
   width: 100%;
   height: 100%;
   position: relative;
@@ -127,5 +127,5 @@ export default {
   backface-visibility: hidden;
   transform-origin: 0 0; /* see note above */
 }
-.ldio-s37vhufcba8 div { box-sizing: content-box; }
+.loading-io div { box-sizing: content-box; }
 </style>

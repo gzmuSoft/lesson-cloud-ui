@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import base from './modules/base'
 import auth from './modules/auth'
+import user from './modules/user'
 import createVuexAlong from 'vuex-along'
 import Vuex from 'vuex'
 
@@ -14,13 +15,13 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    base, auth
+    base, auth, user
   },
   plugins: [
     createVuexAlong({
       name: 'lesson-cloud', // 设置保存的集合名字，避免同站点下的多项目数据冲突
       local: {
-        list: ['base', 'auth']
+        list: ['base', 'auth', 'user']
       }
     })
   ]

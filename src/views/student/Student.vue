@@ -13,6 +13,7 @@
 <script>
 import StudentNavigation from './StudentNavigation'
 import StudentTopBar from './StudentTopBar'
+import { mapState } from 'vuex'
 export default {
   name: 'Student',
   components: {
@@ -21,6 +22,14 @@ export default {
   },
   data: () => ({
   }),
+  created () {
+    this.$store.dispatch('user/userInfo')
+  },
+  computed: {
+    ...mapState('user', {
+      student: 'student'
+    })
+  },
   methods: {
     handleDrawer () {
       this.$refs.drawer.drawer = !this.$refs.drawer.drawer

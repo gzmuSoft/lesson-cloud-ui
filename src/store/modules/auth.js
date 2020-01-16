@@ -1,6 +1,4 @@
 const state = {
-  user: null,
-  userId: null,
   accessToken: null,
   refreshToken: null,
   expiresIn: null,
@@ -8,14 +6,14 @@ const state = {
   userName: null,
   isTeacher: null,
   isStudent: null,
-  authorities: null,
-  roles: null
+  authorities: null
 }
 
 const getters = {
   isAuth: state => state.accessToken !== null && state.refreshToken !== null && state.sub !== null,
   isStudent: state => state.isStudent,
-  isTeacher: state => state.isTeacher
+  isTeacher: state => state.isTeacher,
+  token: state => state.accessToken
 }
 
 const mutations = {
@@ -27,8 +25,6 @@ const mutations = {
     state.isTeacher = token.is_teacher
     state.isStudent = token.is_student
     state.authorities = token.authorities
-    state.roles = token.roles
-    state.userId = token.user_id
     state.userName = token.user_name
   },
   LOGOUT (state) {

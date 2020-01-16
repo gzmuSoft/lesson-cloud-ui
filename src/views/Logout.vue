@@ -1,7 +1,7 @@
 <template lang="pug">
   #lesson-login.fill-height.mx-auto.justify-center.align-center.d-flex.flex-column
-    .loadingio-spinner-cube-9lqlosg5wsh
-      .ldio-sjav3iy4o3
+    .loading-cover
+      .cover
         div
         div
         div
@@ -52,45 +52,45 @@ export default {
 </script>
 
 <style scoped>
-@keyframes ldio-sjav3iy4o3 {
-  0% { transform: scale(1.1500000000000001) }
+@keyframes cover {
+  0% { transform: scale(1.15) }
   100% { transform: scale(1) }
 }
-.ldio-sjav3iy4o3 div {
+.cover div {
   position: absolute;
   width: 80px;
   height: 80px;
-  top: 13.333333333333336px;
-  left: 13.333333333333336px;
+  top: 13px;
+  left: 13px;
   background: #e15b64;
-  animation: ldio-sjav3iy4o3 1s cubic-bezier(0,0.5,0.5,1) infinite;
+  animation: cover 1s cubic-bezier(0,0.5,0.5,1) infinite;
   animation-delay: -0.3s;
 }
-.ldio-sjav3iy4o3 div:nth-child(2) {
-  top: 13.333333333333336px;
-  left: 106.66666666666666px;
+.cover div:nth-child(2) {
+  top: 13px;
+  left: 106px;
   background: #f47e60;
   animation-delay: -0.2s;
 }
-.ldio-sjav3iy4o3 div:nth-child(3) {
-  top: 106.66666666666666px;
-  left: 13.333333333333336px;
+.cover div:nth-child(3) {
+  top: 106px;
+  left: 13px;
   background: #abbd81;
   animation-delay: 0s;
 }
-.ldio-sjav3iy4o3 div:nth-child(4) {
-  top: 106.66666666666666px;
-  left: 106.66666666666666px;
+.cover div:nth-child(4) {
+  top: 106px;
+  left: 106px;
   background: #f8b26a;
   animation-delay: -0.1s;
 }
-.loadingio-spinner-cube-9lqlosg5wsh {
+.loading-cover {
   width: 200px;
   height: 200px;
   display: inline-block;
   overflow: hidden;
 }
-.ldio-sjav3iy4o3 {
+.cover {
   width: 100%;
   height: 100%;
   position: relative;
@@ -98,5 +98,5 @@ export default {
   backface-visibility: hidden;
   transform-origin: 0 0; /* see note above */
 }
-.ldio-sjav3iy4o3 div { box-sizing: content-box; }
+.cover div { box-sizing: content-box; }
 </style>

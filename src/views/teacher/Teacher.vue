@@ -23,6 +23,7 @@ export default {
   },
   created () {
     this.changeTheme()
+    this.$store.dispatch('user/userInfo')
   },
   methods: {
     handleTheme () {
