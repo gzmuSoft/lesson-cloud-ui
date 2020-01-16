@@ -11,7 +11,7 @@
         v-list-item(link)
           v-icon mdi-shield
         template(v-slot:append)
-          v-list-item(link)
+          v-list-item(link, @click="handleLogout")
             v-icon mdi-exit-to-app
       v-list.grow
         v-list-item(link)
@@ -24,11 +24,18 @@
 </template>
 
 <script>
+import { logoutUrl } from '@/api/oauth'
+
 export default {
   name: 'StudentNavigation',
   data: () => ({
     drawer: false
-  })
+  }),
+  methods: {
+    handleLogout () {
+      logoutUrl()
+    }
+  }
 }
 </script>
 

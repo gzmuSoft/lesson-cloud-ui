@@ -1,26 +1,39 @@
 <template lang="pug">
   #lesson-teacher
-    teacher-navigation(:drawer="drawer")
+    v-navigation-drawer(v-model="drawer", app, clipped, dark, mobile-break-point="991")
+      teacher-navigation
     v-content
       v-container
-        v-row.px-3
-          span.title.grey--text Dash
-          v-spacer
-          v-icon mdi-close
+        teacher-top-bar(@changeDrawer="drawer = !drawer")
         v-scroll-y-reverse-transition
           router-view
 </template>
 
 <script>
 import TeacherNavigation from './TeacherNavigation'
+import TeacherTopBar from './TeacherTopBar'
 export default {
   name: 'Teacher',
-  components: {
-    TeacherNavigation
-  },
+  components: { TeacherNavigation, TeacherTopBar },
   data: () => ({
-    drawer: true
-  })
+    drawer: true,
+    theme: true
+  }),
+  watch: {
+  },
+  created () {
+    this.changeTheme()
+  },
+  methods: {
+    handleTheme () {
+      this.$store.dispatch('base/changeTheme')
+      this.changeTheme()
+    },
+    changeTheme () {
+      this.$vuetify.theme.dark = this.$store.getters['base/theme']
+      this.theme = this.$store.getters['base/theme']
+    }
+  }
 }
 </script>
 

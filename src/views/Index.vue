@@ -1,15 +1,32 @@
 <template lang="pug">
   #lesson-index
-    v-img(src="https://material-crypto.vuetifyjs.com/img/blob-top-min.3a5c5dfb.png", height="auto", position="absolute",
-      min-width="960px", max-width="100%", width="1300px")
+    v-btn(color="primary", @click="start") {{$t("start")}}
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { authServer } from '@/api/oauth'
 export default {
   name: 'Index',
   data: () => ({
     //
-  })
+  }),
+  computed: {
+    ...mapGetters('auth', [
+      'isStudent', 'isTeacher', 'isAuth'
+    ])
+  },
+  methods: {
+    start () {
+      if (!this.isAuth) {
+        authServer()
+      } else if (this.isStudent) {
+        this.$router.push({ name: 'student' })
+      } else if (this.isTeacher) {
+        this.$router.push({ name: 'teacher' })
+      }
+    }
+  }
 }
 </script>
 

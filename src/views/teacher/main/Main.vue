@@ -1,6 +1,6 @@
 <template lang="pug">
   #tescher-main
-    p 123456
+    p
 
 </template>
 
