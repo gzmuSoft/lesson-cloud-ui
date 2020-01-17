@@ -25,7 +25,8 @@ export default {
   }),
   async created () {
     this.showBack()
-    this.logout()
+    await this.logout()
+    await this.clearUser()
     this.tip = '退出成功！正在跳转......'
     this.timeShow = true
     setInterval(() => {
@@ -38,6 +39,9 @@ export default {
   methods: {
     ...mapActions('auth', {
       logout: 'logout'
+    }),
+    ...mapActions('user', {
+      clearUser: 'initUser'
     }),
     showBack () {
       setTimeout(() => {

@@ -6,3 +6,10 @@ export const authMe = () => {
     method: 'get'
   })
 }
+
+export const authMenu = () => {
+  return authAxios.request({
+    url: '/auth/menu',
+    method: 'get'
+  })
+}

@@ -1,9 +1,17 @@
 {
   "start": "开始使用",
   "app": {
-    "name": "云课程"
+    "name": "云课程",
+    "changeLanguage": "英文",
+    "changeTheme": "切换主题"
   },
   "base": {
-    "welcome": "欢迎你"
+    "welcome": "欢迎你",
+    "personalSetting": "个人设置",
+    "appSetting": "应用设置",
+    "logout": "退出"
+  },
+  "menu": {
+    "dashboard": "仪表盘"
   }
 }

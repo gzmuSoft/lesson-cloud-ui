@@ -14,8 +14,11 @@
 import StudentNavigation from './StudentNavigation'
 import StudentTopBar from './StudentTopBar'
 import { mapState } from 'vuex'
+import { initUser } from '@/plugins/baseMixin'
+
 export default {
   name: 'Student',
+  mixins: [initUser],
   components: {
     StudentNavigation,
     StudentTopBar
@@ -23,7 +26,6 @@ export default {
   data: () => ({
   }),
   created () {
-    this.$store.dispatch('user/userInfo')
   },
   computed: {
     ...mapState('user', {

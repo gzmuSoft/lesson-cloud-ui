@@ -7,54 +7,70 @@
             v-list-item(v-on="on")
               v-list-item-avatar
                 v-img(:src="user.avatar")
-          span 个人设置
+          span {{$t("base.personalSetting")}}
         v-divider
-        v-list-item(link)
-          v-icon mdi-all-inclusive
-        v-list-item(link)
-          v-icon mdi-spin mdi-settings
+        v-tooltip(right)
+          template(v-slot:activator="{ on }")
+            v-list-item(link, v-on="on", @click="handleTheme")
+              v-icon mdi-theme-light-dark
+          span {{$t("app.changeTheme")}}
+        v-tooltip(right)
+          template(v-slot:activator="{ on }")
+            v-list-item(link, v-on="on", @click="handleLocale")
+              v-icon mdi-all-inclusive
+          span {{$t("app.changeLanguage")}}
+        v-tooltip(right)
+          template(v-slot:activator="{ on }")
+            v-list-item(link, v-on="on")
+              v-icon mdi-spin mdi-settings
+          span {{$t("base.appSetting")}}
         template(v-slot:append)
           v-tooltip(right)
             template(v-slot:activator="{ on }")
               v-list-item(link, @click="handleLogout", v-on="on")
                 v-icon mdi-exit-to-app
-            span 退出登录
+            span {{$t("base.logout")}}
       v-list.grow
-        v-list-item(link)
-          v-list-item-title home
-        v-list-item(link)
-          v-list-item-title home
-        v-list-item(link)
-          v-list-item-title home
+        v-list-item(v-for="menu in menus", link, :key="menu.id", :to="{name : menu.routeName}")
+          v-list-item-title {{$t(menu.name)}}
 
 </template>
 
 <script>
 import { logoutUrl } from '@/api/oauth'
-import { mapState } from 'vuex'
+import { initMenu } from '@/plugins/baseMixin'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'StudentNavigation',
+  mixins: [initMenu],
   data: () => ({
     drawer: false
   }),
   computed: {
-    ...mapState('user', {
-      user: 'user'
-    })
+    ...mapState('user', { user: 'user' })
+  },
+  created () {
   },
   methods: {
     handleLogout () {
       logoutUrl()
-    }
+    },
+    ...mapActions('base', {
+      handleLocale: 'changeLocale',
+      handleTheme: 'changeTheme'
+    })
   }
 }
 </script>
 
 <style scoped lang="stylus">
-  #student-nav
-    top auto !important
-    bottom  0 !important
-    margin-bottom 64px
-    min-width 360px
+#student-nav
+  top auto !important
+  bottom  0 !important
+  margin-bottom 64px
+  min-width 360px
+  @media screen and (max-width: 640px)
+    height 100% !important
+    margin-bottom 0 !important
 </style>

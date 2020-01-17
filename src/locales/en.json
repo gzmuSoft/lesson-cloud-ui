@@ -1,9 +1,17 @@
 {
   "start": "Get Start",
   "app": {
-    "name": "lesson-cloud"
+    "name": "lesson-cloud",
+    "changeLanguage": "Chinese",
+    "changeTheme": "Change theme"
   },
   "base": {
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "personalSetting": "Personal settings",
+    "appSetting": "Application Setting",
+    "logout": "Logout"
+  },
+  "menu": {
+    "dashboard": "Dashboard"
   }
 }

@@ -2,8 +2,11 @@
   v-row.px-3#teacher-topbar
     v-app-bar-nav-icon(@click.stop="changeDrawer")
     v-spacer
-    v-btn(text, icon, @click="handleLogout")
-      v-icon mdi-power
+    v-tooltip(bottom)
+      template(v-slot:activator="{ on }")
+        v-btn(text, icon, v-on="on", @click="handleLogout")
+          v-icon mdi-power
+      span {{$t("base.logout")}}
 
 </template>
 

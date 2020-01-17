@@ -12,27 +12,22 @@
 <script>
 import TeacherNavigation from './TeacherNavigation'
 import TeacherTopBar from './TeacherTopBar'
+import { initUser } from '@/plugins/baseMixin'
+
 export default {
   name: 'Teacher',
+  mixins: [initUser],
   components: { TeacherNavigation, TeacherTopBar },
   data: () => ({
-    drawer: true,
-    theme: true
+    drawer: true
   }),
   watch: {
   },
   created () {
-    this.changeTheme()
-    this.$store.dispatch('user/userInfo')
   },
   methods: {
     handleTheme () {
       this.$store.dispatch('base/changeTheme')
-      this.changeTheme()
-    },
-    changeTheme () {
-      this.$vuetify.theme.dark = this.$store.getters['base/theme']
-      this.theme = this.$store.getters['base/theme']
     }
   }
 }
