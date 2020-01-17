@@ -4,6 +4,21 @@
     v-spacer
     v-tooltip(bottom)
       template(v-slot:activator="{ on }")
+        v-btn.mr-2(text, icon, v-on="on", @click="handleTheme")
+          v-icon mdi-theme-light-dark
+      span {{$t("app.changeTheme")}}
+    v-tooltip(bottom)
+      template(v-slot:activator="{ on }")
+        v-btn.mr-2(text, icon, v-on="on", @click="handleLocale")
+          v-icon mdi-all-inclusive
+      span {{$t("app.changeLanguage")}}
+    v-tooltip(bottom)
+      template(v-slot:activator="{ on }")
+        v-btn.mr-2(text, icon, v-on="on")
+          v-icon mdi-spin mdi-settings
+      span {{$t("base.appSetting")}}
+    v-tooltip(bottom)
+      template(v-slot:activator="{ on }")
         v-btn(text, icon, v-on="on", @click="handleLogout")
           v-icon mdi-power
       span {{$t("base.logout")}}
@@ -12,9 +27,11 @@
 
 <script>
 import { logoutUrl } from '@/api/oauth'
+import { baseMethods } from '@/plugins/baseMixin'
 
 export default {
   name: 'TeacherTopBar',
+  mixins: [baseMethods],
   data: () => ({
     //
   }),

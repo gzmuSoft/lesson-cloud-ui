@@ -5,6 +5,7 @@
     v-content
       v-container
         teacher-top-bar(@changeDrawer="drawer = !drawer")
+        v-divider
         v-scroll-y-reverse-transition
           router-view
 </template>

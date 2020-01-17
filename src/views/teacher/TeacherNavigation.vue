@@ -3,7 +3,10 @@
     v-list
       v-list-item
         v-list-item-avatar(color="white", size="38px")
-          v-img(:src="user.avatar", height="34", contain)
+          v-tooltip(bottom)
+            template(v-slot:activator="{ on }")
+              v-img(:src="user.avatar", height="38", contain, v-on="on")
+            span {{$t("base.personalSetting")}}
         v-list-item-content
           v-list-item-title.title {{user.name}}
       v-divider.mb-5

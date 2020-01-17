@@ -36,3 +36,12 @@ export const initMenu = {
     authMenu().then(res => { this.menus = res.data })
   }
 }
+
+export const baseMethods = {
+  methods: {
+    ...mapActions('base', {
+      handleLocale: 'changeLocale',
+      handleTheme: 'changeTheme'
+    })
+  }
+}

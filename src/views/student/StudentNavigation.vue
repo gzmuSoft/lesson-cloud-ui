@@ -32,18 +32,21 @@
             span {{$t("base.logout")}}
       v-list.grow
         v-list-item(v-for="menu in menus", link, :key="menu.id", :to="{name : menu.routeName}")
-          v-list-item-title {{$t(menu.name)}}
+          v-list-item-action
+            v-icon {{menu.icon}}
+          v-list-item-content
+            v-list-item-title {{$t(menu.name)}}
 
 </template>
 
 <script>
 import { logoutUrl } from '@/api/oauth'
-import { initMenu } from '@/plugins/baseMixin'
-import { mapState, mapActions } from 'vuex'
+import { initMenu, baseMethods } from '@/plugins/baseMixin'
+import { mapState } from 'vuex'
 
 export default {
   name: 'StudentNavigation',
-  mixins: [initMenu],
+  mixins: [initMenu, baseMethods],
   data: () => ({
     drawer: false
   }),
@@ -55,11 +58,7 @@ export default {
   methods: {
     handleLogout () {
       logoutUrl()
-    },
-    ...mapActions('base', {
-      handleLocale: 'changeLocale',
-      handleTheme: 'changeTheme'
-    })
+    }
   }
 }
 </script>
