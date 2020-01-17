@@ -23,9 +23,10 @@ const mutations = {
 }
 
 const actions = {
-  userInfo ({ commit }) {
+  userInfo ({ commit, dispatch }) {
     authMe().then(res => {
       commit('AUTH_ME', res.data)
+      if (res.data.refresh) dispatch('auth/refreshToken', {}, { root: true })
     })
   },
   initUser ({ commit }) {

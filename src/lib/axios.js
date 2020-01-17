@@ -2,6 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import store from '@/store'
 import { baseURL } from '@/api/config'
+import { authServer } from '@/api/oauth'
+
 // import router from '@/router'
 
 class HttpRequest {
@@ -45,6 +47,8 @@ class HttpRequest {
             break
           case 401:
             message = '未经授权:访问由于凭据无效被拒绝'
+            Vue.prototype.$toast.error(message)
+            authServer()
             break
           case 403:
             message = '鉴权失败:您没有权限访问该资源'

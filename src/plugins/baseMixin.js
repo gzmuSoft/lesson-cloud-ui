@@ -18,8 +18,8 @@ export const initApplication = {
 }
 
 export const initUser = {
-  created () {
-    this.initUser()
+  async created () {
+    await this.initUser()
   },
   methods: {
     ...mapActions('user', {

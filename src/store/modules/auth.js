@@ -1,3 +1,5 @@
+import { refreshToken } from '@/api/oauth'
+
 const state = {
   accessToken: null,
   refreshToken: null,
@@ -37,6 +39,12 @@ const mutations = {
 const actions = {
   oauthToken ({ commit }, token) {
     commit('SET_TOKEN', token)
+  },
+  refreshToken ({ commit, state }) {
+    refreshToken(state.refreshToken)
+      .then(res => {
+        commit('SET_TOKEN', res.data)
+      })
   },
   logout ({ commit }) {
     commit('LOGOUT')

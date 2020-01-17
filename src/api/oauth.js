@@ -1,12 +1,10 @@
 import axios from 'axios'
 import { baseURL } from './config'
 
-// const OAUTH_TOKEN = baseURL + '/oauth/token'
-// const CHECK_TOKEN = baseURL + '/oauth/check_token'
 const AUTH_SERVER = baseURL + '/auth/serverUrl'
 const AUTH_CODE = baseURL + '/auth/code'
+const REFRESH_TOKEN = baseURL + '/auth/refresh'
 const LOGOUT_URL = baseURL + '/auth/logout'
-// const AUTH_ME = baseURL + '/auth/me'
 
 /**
  * 请求授权服务器地址
@@ -30,6 +28,19 @@ export const authCode = (code) => {
   form.append('code', code)
   return axios({
     url: AUTH_CODE,
+    method: 'post',
+    data: form
+  })
+}
+
+/**
+ * 刷新 token
+ */
+export const refreshToken = (token) => {
+  let form = new FormData()
+  form.append('token', token)
+  return axios({
+    url: REFRESH_TOKEN,
     method: 'post',
     data: form
   })
