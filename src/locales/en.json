@@ -12,6 +12,7 @@
     "logout": "Logout"
   },
   "menu": {
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "question": "Question"
   }
 }

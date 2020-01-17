@@ -30,6 +30,10 @@ const routes = [
     children: [
       {
         path: '',
+        redirect: { name: 'student' }
+      },
+      {
+        path: 'index',
         name: 'student',
         component: () => import(/* webpackChunkName: "about" */ '@/views/student/main')
       }
@@ -41,8 +45,17 @@ const routes = [
     children: [
       {
         path: '',
+        redirect: { name: 'teacher' }
+      },
+      {
+        path: 'index',
         name: 'teacher',
         component: () => import(/* webpackChunkName: "about" */ '@/views/teacher/main')
+      },
+      {
+        path: 'question',
+        name: 'teacher-question',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/teacher/question')
       }
     ]
   }

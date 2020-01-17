@@ -10,7 +10,7 @@
         v-list-item-content
           v-list-item-title.title {{user.name}}
       v-divider.mb-5
-      v-list-item(v-for="menu in menus", link, :to="{name: menu.routeName}", :key="menu.id")
+      v-list-item(v-for="menu in menus", link, :to="{name: menu.routeName}", :key="menu.id", color="primary")
         v-list-item-action
           v-icon {{menu.icon}}
         v-list-item-content

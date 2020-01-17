@@ -12,6 +12,7 @@
     "logout": "退出"
   },
   "menu": {
-    "dashboard": "仪表盘"
+    "dashboard": "仪表盘",
+    "question": "题库管理"
   }
 }
