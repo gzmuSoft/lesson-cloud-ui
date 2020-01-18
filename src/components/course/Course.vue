@@ -10,29 +10,32 @@
               v-icon(size="20") {{treeIcon(item.key)}}
         v-divider(vertical)
         v-col
-          v-scroll-y-transition(mode="out-in")
+          v-scroll-y-transition(hide-on-leave, mode="out-in")
             .title.grey--text.text--lighten-1.font-weight-light.text-center(v-if="active.length === 0")
-              | 请选择一个课程、章节或知识点
-            .pt-6.mx-auto(v-else)
-              v-simple-table
-                tbody
-                  tr(v-for="(value, key, index) in selected", :key="index")
-                    td {{key}}
-                    td {{value}}
+              | {{$t("tip.course")}}
+          v-scroll-y-transition(hide-on-leave, mode="out-in")
+            .pt-6.mx-auto(v-if="active.length !== 0")
+              component(:is="info", :item="selected", :parents="parents")
 </template>
 
 <script>
 import { getAll } from '@/api/rest'
 import { searchByCourseId } from '@/api/section'
 import { searchBySectionId } from '@/api/knowledge'
+import CourseInfo from './CourseInfo'
+import SectionInfo from './SectionInfo'
+import KnowledgeInfo from './KnowledgeInfo'
 
 export default {
   name: 'Course',
+  components: { CourseInfo, SectionInfo, KnowledgeInfo },
   data: () => ({
     course: [],
     open: [],
     active: [],
-    selected: null
+    selected: null,
+    info: 'course-info',
+    parents: []
   }),
   created () {
     getAll('course').then(res => {
@@ -67,6 +70,17 @@ export default {
     handleActive (item) {
       if (item.length === 0) return
       this.selected = item[0]
+      if (this.selected.key.startsWith('1-')) this.info = 'course-info'
+      else if (this.selected.key.startsWith('2-')) {
+        this.info = 'section-info'
+        this.parents = this._.cloneDeep(this._.find(this.course, { id: this.selected.courseId }).children)
+        this.parents.unshift({ id: 0, name: '无' })
+      } else if (this.selected.key.startsWith('3-')) {
+        this.info = 'knowledge-info'
+        const sections = this._.find(this.course, { id: this.selected.courseId }).children
+        this.parents = this._.cloneDeep(this._.find(sections, { id: this.selected.sectionId })).children
+        this.parents.unshift({ id: 0, name: '无' })
+      }
     }
   }
 }

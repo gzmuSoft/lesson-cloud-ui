@@ -15,5 +15,41 @@
     "dashboard": "Dashboard",
     "question": "Question",
     "course": "Course"
+  },
+  "action": {
+    "save": "Save",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "ok": "Ok"
+  },
+  "entity": {
+    "name": "Name",
+    "sort": "Sort",
+    "createUser": "Create User",
+    "createTime": "Create Time",
+    "modifyUser": "Modify User",
+    "modifyTime": "Modify Time",
+    "remark": "Remark"
+  },
+  "tip": {
+    "course": "Please select a course, chapter or knowledge point."
+  },
+  "course": {
+    "name": "Course",
+    "period": "Period",
+    "credit": "Credit",
+    "type": "Type"
+  },
+  "section": {
+    "name": "Section",
+    "intro": "Intro",
+    "parent": "Parent",
+    "type": "Type"
+  },
+  "knowledge": {
+    "name": "Knowledge",
+    "intro": "Intro",
+    "parent": "Parent"
   }
 }

@@ -5,3 +5,8 @@ export const types = [
   { name: '问答题', value: 'ESSAY' },
   { name: '编程题', value: 'PROGRAM' }
 ]
+
+export const sectionTypes = [
+  { id: 0, name: '章' },
+  { id: 1, name: '节' }
+]

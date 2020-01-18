@@ -15,5 +15,41 @@
     "dashboard": "仪表盘",
     "question": "题库管理",
     "course": "课程管理"
+  },
+  "action": {
+    "save": "保存",
+    "edit": "编辑",
+    "cancel": "取消",
+    "close": "关闭",
+    "ok": "确定"
+  },
+  "entity": {
+    "name": "名称",
+    "sort": "排序",
+    "createUser": "创建用户",
+    "createTime": "创建日期",
+    "modifyUser": "更新用户",
+    "modifyTime": "更新时间",
+    "remark": "备注"
+  },
+  "tip": {
+    "course": "请选择一个课程、章节或知识点"
+  },
+  "course": {
+    "name": "课程",
+    "period": "基础学时",
+    "credit": "基础学分",
+    "type": "课程性质"
+  },
+  "section": {
+    "name": "章节",
+    "intro": "内容简介",
+    "parent": "章节上级",
+    "type": "章节类型"
+  },
+  "knowledge": {
+    "name": "知识点",
+    "intro": "内容简介",
+    "parent": "知识点上级"
   }
 }
