@@ -1,6 +1,16 @@
 import axios from './index'
 
 /**
+ * 获取所有数据
+ */
+export const getAll = (resource) => {
+  return axios.request({
+    url: `/${resource}/search/all`,
+    method: 'get'
+  })
+}
+
+/**
  * 获取所有资源（分页）
  *
  * @returns 响应

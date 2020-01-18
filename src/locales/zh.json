@@ -13,6 +13,7 @@
   },
   "menu": {
     "dashboard": "仪表盘",
-    "question": "题库管理"
+    "question": "题库管理",
+    "course": "课程管理"
   }
 }

@@ -19,7 +19,7 @@
             item-value='id', item-text='name', label="知识点", clearable)
         v-flex(sm12, md6, lg4)
           v-switch(v-model="search.isPublic", :label="`是否公开:${search.isPublic?'是':'否'}`")
-        v-flex.text-right(sm12, md6, lg8)
+        v-flex.text-right(sm12, md12, lg8)
           v-spacer.mt-4
           v-btn.mr-4(color="info", outlined, @click="init") 重置条件
           v-btn(color="primary", outlined, @click="handleSearch") 查询

@@ -13,6 +13,7 @@
   },
   "menu": {
     "dashboard": "Dashboard",
-    "question": "Question"
+    "question": "Question",
+    "course": "Course"
   }
 }
