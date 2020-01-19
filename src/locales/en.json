@@ -17,11 +17,17 @@
     "course": "Course"
   },
   "action": {
+    "key": "Action",
     "save": "Save",
     "edit": "Edit",
     "cancel": "Cancel",
     "close": "Close",
-    "ok": "Ok"
+    "ok": "Ok",
+    "query": "Query",
+    "info": "Info",
+    "view": "View",
+    "yes": "Yes",
+    "no": "No"
   },
   "entity": {
     "name": "Name",
@@ -33,7 +39,11 @@
     "remark": "Remark"
   },
   "tip": {
-    "course": "Please select a course, chapter or knowledge point."
+    "course": {
+      "management": "Please select a course, chapter or knowledge point.",
+      "self": "Show only your own courses: {0}",
+      "warningView": "Please select the course you want to view."
+    }
   },
   "course": {
     "name": "Course",
@@ -45,11 +55,21 @@
     "name": "Section",
     "intro": "Intro",
     "parent": "Parent",
-    "type": "Type"
+    "type": "Type",
+    "chapter": "Chapter",
+    "section": "Section"
   },
   "knowledge": {
     "name": "Knowledge",
     "intro": "Intro",
     "parent": "Parent"
+  },
+  "question": {
+    "singleSel": "Single Sel",
+    "multiSel": "Multi Sel",
+    "judgement": "Judgement",
+    "fillBlank": "Fill Blank",
+    "essay": "Essay",
+    "program": "Program"
   }
 }

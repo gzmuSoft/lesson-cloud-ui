@@ -1,13 +1,12 @@
 <template lang="pug">
   #teacher-course
-    course-management
+    v-fade-transition(hide-on-leave)
+      router-view
 </template>
 
 <script>
-import Course from '@/components/course/Course'
 export default {
   name: 'Course',
-  components: { CourseManagement: Course },
   data: () => ({
     //
   })

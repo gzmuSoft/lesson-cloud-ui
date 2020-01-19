@@ -17,11 +17,17 @@
     "course": "课程管理"
   },
   "action": {
+    "key": "操作",
     "save": "保存",
     "edit": "编辑",
     "cancel": "取消",
     "close": "关闭",
-    "ok": "确定"
+    "ok": "确定",
+    "query": "查询",
+    "info": "详情",
+    "view": "查看",
+    "yes": "是",
+    "no": "否"
   },
   "entity": {
     "name": "名称",
@@ -33,7 +39,11 @@
     "remark": "备注"
   },
   "tip": {
-    "course": "请选择一个课程、章节或知识点"
+    "course": {
+      "management": "请选择一个课程、章节或知识点",
+      "self": "只显示自己的课程: {0}",
+      "warningView": "请选择您要查看的课程。"
+    }
   },
   "course": {
     "name": "课程",
@@ -45,11 +55,21 @@
     "name": "章节",
     "intro": "内容简介",
     "parent": "章节上级",
-    "type": "章节类型"
+    "type": "章节类型",
+    "chapter": "章",
+    "section": "节"
   },
   "knowledge": {
     "name": "知识点",
     "intro": "内容简介",
     "parent": "知识点上级"
+  },
+  "question": {
+    "singleSel": "单选题",
+    "multiSel": "多选题",
+    "judgement": "判断题",
+    "fillBlank": "填空题",
+    "essay": "问答题",
+    "program": "判断题"
   }
 }

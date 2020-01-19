@@ -1,5 +1,5 @@
 <template lang="pug">
-  .knowledge-info {{$t("knowledge.name")}}：{{item.name}}
+  .section-info {{$t(item.type === 'CHAPTER'? 'section.chapter': 'section.section')}}：{{item.name}}
     v-simple-table
       tbody
         tr
@@ -10,20 +10,28 @@
               template(v-slot:input)
                 v-text-field(v-model="input.name", :label="$t('entity.name')", counter, autofocus, single-line)
         tr
-          td {{$t("knowledge.intro")}}
+          td {{$t("section.intro")}}
           td
             v-edit-dialog(:return-value.sync="input.intro", @close="close", large,
               :cancel-text="$t('action.cancel')", :save-text="$t('action.save')") {{input.intro}}
               template(v-slot:input)
-                v-textarea(v-model="input.intro", :label="$t('knowledge.intro')", counter, autofocus, rows="2")
+                v-textarea(v-model="input.intro", :label="$t('section.intro')", counter, autofocus, rows="2")
         tr
-          td {{$t("knowledge.parent")}}
+          td {{$t("section.parent")}}
           td
             v-edit-dialog(:return-value.sync="input.parent", @close="close", large,
               :cancel-text="$t('action.cancel')", :save-text="$t('action.save')") {{parent}}
               template(v-slot:input)
                 v-select(v-model="input.parentId", :items="parents", item-value='id', item-text='name',
-                  :label="$t('knowledge.parent')")
+                  :label="$t('section.parent')")
+        tr
+          td {{$t("section.type")}}
+          td
+            v-edit-dialog(:return-value.sync="input.type", @close="close", large,
+              :cancel-text="$t('action.cancel')", :save-text="$t('action.save')") {{type}}
+              template(v-slot:input)
+                v-select(v-model="input.type", :items="types", item-value='value', item-text='name',
+                  :label="$t('section.type')")
         tr
           td {{$t("entity.createUser")}}
           td {{input.createUser}}
@@ -50,23 +58,27 @@
 
 <script>
 import { infoMixin } from './infoMixin'
+import { sectionTypes } from '@/util/options'
 
 export default {
-  name: 'KnowledgeInfo',
+  name: 'SectionInfo',
   mixins: [infoMixin],
   props: { parents: { type: Array, required: true } },
   data: () => ({
-    //
+    types: sectionTypes
   }),
   computed: {
     parent () {
       if (this.input.parentId === 0) return '无'
       return this._.find(this.parents, { id: this.input.parentId }).name
+    },
+    type () {
+      return this._.find(this.types, { value: this.input.type }).name
     }
   },
   methods: {
     save () {
-      // TODO: 修改知识点逻辑
+      // TODO: 修改章节逻辑
     }
   }
 }

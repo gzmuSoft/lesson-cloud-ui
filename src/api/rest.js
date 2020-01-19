@@ -108,3 +108,17 @@ export const resourceByNameLike = (resource, name) => {
     method: 'get'
   })
 }
+
+/**
+ * 模糊查询获取资源
+ *
+ * @returns 响应
+ */
+export const resourceByNameLikePage = (resource,
+  { containing = '', page = 0, size = 10, sort = 'sort=sort,asc&sort=id,asc' }) => {
+  return axios.request({
+    url: `/${resource}/search/nameAndPage?${sort}`,
+    method: 'get',
+    params: { containing, page, size }
+  })
+}

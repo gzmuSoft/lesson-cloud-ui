@@ -10,23 +10,23 @@ const routes = [
     path: '/',
     name: 'index',
     meta: { public: true },
-    component: () => import(/* webpackChunkName: "about" */ '@/views/Index')
+    component: () => import(/* webpackChunkName: "Index" */ '@/views/Index')
   },
   {
     path: '/login',
     meta: { public: true },
     name: 'login',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/Login')
+    component: () => import(/* webpackChunkName: "Login" */ '@/views/Login')
   },
   {
     path: '/logout',
     meta: { public: true },
     name: 'logout',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/Logout')
+    component: () => import(/* webpackChunkName: "Logout" */ '@/views/Logout')
   },
   {
     path: '/student',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/student'),
+    component: () => import(/* webpackChunkName: "student" */ '@/views/student'),
     children: [
       {
         path: '',
@@ -35,13 +35,13 @@ const routes = [
       {
         path: 'index',
         name: 'student',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/student/main')
+        component: () => import(/* webpackChunkName: "main" */ '@/views/student/main')
       }
     ]
   },
   {
     path: '/teacher',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/teacher'),
+    component: () => import(/* webpackChunkName: "teacher" */ '@/views/teacher'),
     children: [
       {
         path: '',
@@ -50,17 +50,33 @@ const routes = [
       {
         path: 'index',
         name: 'teacher',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/teacher/main')
+        component: () => import(/* webpackChunkName: "main" */ '@/views/teacher/main')
       },
       {
         path: 'question',
         name: 'teacher-question',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/teacher/question')
+        component: () => import(/* webpackChunkName: "question" */ '@/views/teacher/question')
       },
       {
         path: 'course',
-        name: 'teacher-course',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/teacher/course')
+        component: () => import(/* webpackChunkName: "course" */ '@/views/teacher/course'),
+        children: [
+          {
+            path: '',
+            name: 'teacher-course',
+            redirect: { name: 'teacher-course-index' }
+          },
+          {
+            path: 'index',
+            name: 'teacher-course-index',
+            component: () => import(/* webpackChunkName: "course" */ '@/components/course')
+          },
+          {
+            path: 'management',
+            name: 'teacher-course-management',
+            component: () => import(/* webpackChunkName: "management" */ '@/components/course/management')
+          }
+        ]
       }
     ]
   }

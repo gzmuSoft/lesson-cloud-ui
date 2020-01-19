@@ -1,86 +1,88 @@
 <template lang="pug">
-  v-card.lesson-course
-    v-card-text
-      v-row
-        v-col(sm="12", md="4", xl="3")
-          v-treeview(:items="course", activatable, :load-children="handleSection", hoverable,
-            item-key="key", transition, return-object, @update:active="handleActive",
-            :open.sync="open", :active.sync="active")
-            template(v-slot:prepend="{ item }")
-              v-icon(size="20") {{treeIcon(item.key)}}
-        v-divider(vertical)
-        v-col
-          v-scroll-y-transition(hide-on-leave, mode="out-in")
-            .title.grey--text.text--lighten-1.font-weight-light.text-center(v-if="active.length === 0")
-              | {{$t("tip.course")}}
-          v-scroll-y-transition(hide-on-leave, mode="out-in")
-            .pt-6.mx-auto(v-if="active.length !== 0")
-              component(:is="info", :item="selected", :parents="parents")
+  table-card.lesson-course
+    v-layout(wrap, style="width:100%")
+      v-flex(sm12, md6, lg4)
+        v-text-field(v-model="search.name", :label="$t('entity.name')", clearable)
+      v-flex(sm12, md6, lg4)
+        v-text-field(v-model="search.type", :label="$t('course.type')", clearable)
+      v-flex(sm8, md8, lg3)
+        v-switch(v-model="search.self", :label="selfTip")
+      v-flex(sm4, md4, lg1)
+        .text-right.mt-4
+          v-btn(color="primary", outlined, @click="") {{$t('action.query')}}
+    v-data-table(:headers="headers", :items="courses", :options.sync="options", multi-sort,
+      :server-items-length="itemsLength", :footer-props="footer", :loading="loading")
+      template(v-slot:item.action="{ item }")
+        v-tooltip(top)
+          template(v-slot:activator="{ on }")
+            v-btn.mr-2(outlined, rounded, x-small, fab, color="success", v-on="on", @click="handleSee(item)")
+              v-icon mdi-eye
+          span {{$t('action.view')}}
 </template>
 
 <script>
-import { getAll } from '@/api/rest'
-import { searchByCourseId } from '@/api/section'
-import { searchBySectionId } from '@/api/knowledge'
-import CourseInfo from './CourseInfo'
-import SectionInfo from './SectionInfo'
-import KnowledgeInfo from './KnowledgeInfo'
+import { resourceByNameLikePage } from '@/api/rest'
+import TableCard from '@/components/table-card'
+import { toPage } from '@/util/page'
 
 export default {
   name: 'Course',
-  components: { CourseInfo, SectionInfo, KnowledgeInfo },
-  data: () => ({
-    course: [],
-    open: [],
-    active: [],
-    selected: null,
-    info: 'course-info',
-    parents: []
-  }),
+  components: { TableCard },
+  data: function () {
+    return {
+      search: { name: '', type: '', self: false },
+      courses: [],
+      options: {
+        sortBy: [ 'sort' ],
+        sortDesc: [ false ]
+      },
+      footer: {
+        itemsPerPageOptions: [5, 10, 15, 20],
+        showCurrentPage: true,
+        showFirstLastPage: true
+      },
+      loading: false,
+      itemsLength: -1,
+      headers: [
+        { text: this.$i18n.t('entity.name'), align: 'left', value: 'name' },
+        { text: this.$i18n.t('course.type'), align: 'left', value: 'type' },
+        { text: this.$i18n.t('entity.sort'), align: 'left', value: 'sort' },
+        { text: this.$i18n.t('action.key'), align: 'center', value: 'action', sortable: false }
+      ]
+    }
+  },
   created () {
-    getAll('course').then(res => {
-      res.data._embedded.courses.forEach(value => {
-        value.children = []
-        value.key = `1-${value.id}`
-        this.course.push(value)
-      })
-    })
+    this.getCourse({})
+  },
+  computed: {
+    selfTip () {
+      let tip = ''
+      if (this.search.self) tip = 'action.yes'
+      else tip = 'action.no'
+      tip = this.$i18n.t(tip)
+      return this.$i18n.t('tip.course.self', [tip])
+    }
+  },
+  watch: {
+    options (val) {
+      this.getCourse(toPage(val))
+    }
   },
   methods: {
-    treeIcon (key) {
-      if (key === null) return ''
-      if (key.startsWith('1-')) return 'mdi-book-open-variant'
-      if (key.startsWith('2-')) return 'mdi-book-multiple'
-      if (key.startsWith('3-')) return 'mdi-book'
-    },
-    async handleSection (item) {
-      if (item.key.startsWith('1-')) {
-        const section = await searchByCourseId(item.id)
-        section.data._embedded.sections.map(value => {
-          value.children = []
-          value.key = `2-${value.id}`
+    getCourse (params) {
+      this.loading = true
+      resourceByNameLikePage('course', params)
+        .then(res => {
+          this.courses = res.data._embedded.courses
+          this.itemsLength = res.data.page.totalElements
         })
-        item.children = section.data._embedded.sections
-      } else {
-        const knowledge = await searchBySectionId(item.id)
-        knowledge.data._embedded.knowledges.map(value => { value.key = `3-${value.id}` })
-        item.children = knowledge.data._embedded.knowledges
-      }
+        .finally(() => { this.loading = false })
     },
-    handleActive (item) {
-      if (item.length === 0) return
-      this.selected = item[0]
-      if (this.selected.key.startsWith('1-')) this.info = 'course-info'
-      else if (this.selected.key.startsWith('2-')) {
-        this.info = 'section-info'
-        this.parents = this._.cloneDeep(this._.find(this.course, { id: this.selected.courseId }).children)
-        this.parents.unshift({ id: 0, name: '无' })
-      } else if (this.selected.key.startsWith('3-')) {
-        this.info = 'knowledge-info'
-        const sections = this._.find(this.course, { id: this.selected.courseId }).children
-        this.parents = this._.cloneDeep(this._.find(sections, { id: this.selected.sectionId })).children
-        this.parents.unshift({ id: 0, name: '无' })
-      }
+    handleSee (item) {
+      this.$router.push({
+        name: 'teacher-course-management',
+        params: { course: item }
+      })
     }
   }
 }
