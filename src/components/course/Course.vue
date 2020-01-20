@@ -1,29 +1,27 @@
 <template lang="pug">
   table-card.lesson-course
     v-layout(wrap, style="width:100%")
-      v-flex(sm12, md6, lg4)
+      v-flex(sm12, md6)
         v-text-field(v-model="search.name", :label="$t('entity.name')", clearable)
-      v-flex(sm12, md6, lg4)
+      v-flex(sm12, md6)
         v-text-field(v-model="search.type", :label="$t('course.type')", clearable)
-      v-flex(sm8, md8, lg3)
+      v-flex(sm12, md6)
         v-switch(v-model="search.self", :label="selfTip")
-      v-flex(sm4, md4, lg1)
+      v-flex(sm12, md6)
         .text-right.mt-4
-          v-btn(color="primary", outlined, @click="") {{$t('action.query')}}
+          slot(name="action")
+          v-btn.ml-4(color="primary", outlined, @click="handleQuery") {{$t('action.query')}}
     v-data-table(:headers="headers", :items="courses", :options.sync="options", multi-sort,
       :server-items-length="itemsLength", :footer-props="footer", :loading="loading")
       template(v-slot:item.action="{ item }")
-        v-tooltip(top)
-          template(v-slot:activator="{ on }")
-            v-btn.mr-2(outlined, rounded, x-small, fab, color="success", v-on="on", @click="handleSee(item)")
-              v-icon mdi-eye
-          span {{$t('action.view')}}
+        slot(:item="item")
+
 </template>
 
 <script>
-import { resourceByNameLikePage } from '@/api/rest'
 import TableCard from '@/components/table-card'
 import { toPage } from '@/util/page'
+import { courseByNameAndTypeAndSelf } from '@/api/course'
 
 export default {
   name: 'Course',
@@ -46,6 +44,8 @@ export default {
       headers: [
         { text: this.$i18n.t('entity.name'), align: 'left', value: 'name' },
         { text: this.$i18n.t('course.type'), align: 'left', value: 'type' },
+        { text: this.$i18n.t('course.period'), align: 'left', value: 'period' },
+        { text: this.$i18n.t('course.credit'), align: 'left', value: 'credit' },
         { text: this.$i18n.t('entity.sort'), align: 'left', value: 'sort' },
         { text: this.$i18n.t('action.key'), align: 'center', value: 'action', sortable: false }
       ]
@@ -65,24 +65,21 @@ export default {
   },
   watch: {
     options (val) {
-      this.getCourse(toPage(val))
+      this.getCourse(Object.assign(toPage(val), this.search))
     }
   },
   methods: {
     getCourse (params) {
       this.loading = true
-      resourceByNameLikePage('course', params)
+      courseByNameAndTypeAndSelf(params)
         .then(res => {
-          this.courses = res.data._embedded.courses
-          this.itemsLength = res.data.page.totalElements
+          this.courses = res.data.content
+          this.itemsLength = res.data.totalElements
         })
         .finally(() => { this.loading = false })
     },
-    handleSee (item) {
-      this.$router.push({
-        name: 'teacher-course-management',
-        params: { course: item }
-      })
+    handleQuery () {
+      this.getCourse(Object.assign(toPage(this.options), this.search))
     }
   }
 }

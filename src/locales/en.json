@@ -18,8 +18,11 @@
   },
   "action": {
     "key": "Action",
+    "add": "Add",
     "save": "Save",
+    "reset": "Reset",
     "edit": "Edit",
+    "delete": "Delete",
     "cancel": "Cancel",
     "close": "Close",
     "ok": "Ok",
@@ -27,7 +30,9 @@
     "info": "Info",
     "view": "View",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "back": "Back",
+    "refresh": "Refresh"
   },
   "entity": {
     "name": "Name",
@@ -41,8 +46,15 @@
   "tip": {
     "course": {
       "management": "Please select a course, chapter or knowledge point.",
-      "self": "Show only your own courses: {0}",
+      "self": "Only show yours: {0}",
       "warningView": "Please select the course you want to view."
+    },
+    "action": {
+      "success": "Success !",
+      "fail": "Failed !"
+    },
+    "question": {
+      "delete": "Are you sure to delete？"
     }
   },
   "course": {

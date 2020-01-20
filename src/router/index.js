@@ -59,24 +59,8 @@ const routes = [
       },
       {
         path: 'course',
-        component: () => import(/* webpackChunkName: "course" */ '@/views/teacher/course'),
-        children: [
-          {
-            path: '',
-            name: 'teacher-course',
-            redirect: { name: 'teacher-course-index' }
-          },
-          {
-            path: 'index',
-            name: 'teacher-course-index',
-            component: () => import(/* webpackChunkName: "course" */ '@/components/course')
-          },
-          {
-            path: 'management',
-            name: 'teacher-course-management',
-            component: () => import(/* webpackChunkName: "management" */ '@/components/course/management')
-          }
-        ]
+        name: 'teacher-course',
+        component: () => import(/* webpackChunkName: "course" */ '@/views/teacher/course')
       }
     ]
   }

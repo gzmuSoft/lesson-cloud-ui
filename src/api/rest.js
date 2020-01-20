@@ -27,11 +27,12 @@ export const getAllByPage = (resource, params) => {
  * 删除指定链接
  *
  * @param resource self 链接
+ * @param id id
  * @returns 响应
  */
-export const deleteByLink = (resource) => {
+export const deleteOne = (resource, id) => {
   return axios.request({
-    url: `/${resource}`,
+    url: `/${resource}/${id}`,
     method: 'delete'
   })
 }

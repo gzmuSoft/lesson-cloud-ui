@@ -1,5 +1,17 @@
 <template lang="pug">
   v-card.lesson-course-managent
+    v-card-title
+      v-tooltip(bottom)
+        template(v-slot:activator="{ on }")
+          v-btn(icon, v-on="on", @click="$emit('back')")
+            v-icon mdi-keyboard-backspace
+        span {{$t('action.back')}}
+      v-spacer
+      v-tooltip(bottom)
+        template(v-slot:activator="{ on }")
+          v-btn(icon, v-on="on", @click="handleRefresh")
+            v-icon mdi-refresh
+        span {{$t('action.refresh')}}
     v-card-text
       v-row
         v-col(sm="12", md="4", xl="3")
@@ -29,8 +41,8 @@ import { searchBySectionId } from '@/api/knowledge'
 export default {
   name: 'Course',
   components: { CourseInfo, SectionInfo, KnowledgeInfo },
+  props: { course: { type: Object, required: true } },
   data: () => ({
-    course: null,
     section: [],
     open: [],
     active: [],
@@ -39,22 +51,23 @@ export default {
     parents: []
   }),
   created () {
-    this.course = this.$route.params.course
     if (typeof (this.course) === 'undefined') {
       this.$toast(this.$i18n.t('tip.course.warningView'), { type: 'warning' })
-      this.$router.push({ name: 'teacher-course-index' })
       return
     }
-    sectionByCourseAndType(this.course.id, sectionTypes[0].value)
-      .then(res => {
-        res.data._embedded.sections.map(value => {
-          value.key = `1-${value.id}`
-          value.children = []
-          this.section.push(value)
-        })
-      })
+    this.init()
   },
   methods: {
+    init () {
+      sectionByCourseAndType(this.course.id, sectionTypes[0].value)
+        .then(res => {
+          res.data._embedded.sections.map(value => {
+            value.key = `1-${value.id}`
+            value.children = []
+            this.section.push(value)
+          })
+        })
+    },
     treeIcon (key) {
       if (key === null) return ''
       if (key.startsWith('1-')) return 'mdi-book-open-variant'
@@ -85,6 +98,10 @@ export default {
       } else if (this.selected.key.startsWith('3-')) {
         this.info = 'knowledge-info'
       }
+    },
+    handleRefresh () {
+      this.section = []
+      this.init()
     }
   }
 }

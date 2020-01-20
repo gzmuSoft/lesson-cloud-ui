@@ -7,8 +7,10 @@ import i18n from './locales/i18n'
 import _ from 'lodash'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import registryConfirm from '@/plugins/confirm'
 
 Vue.config.productionTip = false
+Vue.use(registryConfirm)
 Vue.prototype._ = _
 Vue.use(Toast, {
   maxToasts: 20,

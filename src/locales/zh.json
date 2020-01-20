@@ -18,8 +18,11 @@
   },
   "action": {
     "key": "操作",
+    "add": "添加",
     "save": "保存",
+    "reset": "重置",
     "edit": "编辑",
+    "delete": "删除",
     "cancel": "取消",
     "close": "关闭",
     "ok": "确定",
@@ -27,7 +30,9 @@
     "info": "详情",
     "view": "查看",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "back": "返回",
+    "refresh": "刷新"
   },
   "entity": {
     "name": "名称",
@@ -43,6 +48,13 @@
       "management": "请选择一个课程、章节或知识点",
       "self": "只显示自己的课程: {0}",
       "warningView": "请选择您要查看的课程。"
+    },
+    "action": {
+      "success": "操作成功",
+      "fail": "操作失败"
+    },
+    "question": {
+      "delete": "您确定删除吗？"
     }
   },
   "course": {
