@@ -12,6 +12,8 @@
           v-col(cols="12")
             v-skeleton-loader(type="table")
       .skeleton-loader-content(v-else)
+        v-card-title.mb-0.pb-0
+          slot(name="title")
         v-card-text
           v-container(grid-list-md)
             slot

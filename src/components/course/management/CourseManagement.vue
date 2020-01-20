@@ -36,7 +36,7 @@ import SectionInfo from './SectionInfo'
 import KnowledgeInfo from './KnowledgeInfo'
 import { sectionTypes } from '@/util/options'
 import { sectionByCourseAndType, sectionByCourseAndParentAndType } from '@/api/section'
-import { searchBySectionId } from '@/api/knowledge'
+import { knowledgeBySectionId } from '@/api/knowledge'
 
 export default {
   name: 'Course',
@@ -83,7 +83,7 @@ export default {
         })
         item.children = section.data._embedded.sections
       } else {
-        const knowledge = await searchBySectionId(item.id)
+        const knowledge = await knowledgeBySectionId(item.id)
         knowledge.data._embedded.knowledges.map(value => { value.key = `3-${value.id}` })
         item.children = knowledge.data._embedded.knowledges
       }

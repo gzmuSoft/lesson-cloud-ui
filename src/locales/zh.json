@@ -82,6 +82,12 @@
     "judgement": "判断题",
     "fillBlank": "填空题",
     "essay": "问答题",
-    "program": "判断题"
+    "program": "判断题",
+    "isPublic": "是否公开: {0}",
+    "public": "是否公开",
+    "difficultRate": "难度系数",
+    "answer": "答案",
+    "explanation": "答案解析",
+    "type": "类型"
   }
 }

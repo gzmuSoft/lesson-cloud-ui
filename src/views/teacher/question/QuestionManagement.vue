@@ -1,5 +1,17 @@
 <template lang="pug">
   table-card#teacher-question
+    template(v-slot:title)
+      v-tooltip(bottom)
+        template(v-slot:activator="{ on }")
+          v-btn(icon, v-on="on", @click="setCourse(null)")
+            v-icon mdi-keyboard-backspace
+        span {{$t('action.back')}}
+      v-spacer
+      v-tooltip(bottom)
+        template(v-slot:activator="{ on }")
+          v-btn(icon, v-on="on", @click="init")
+            v-icon mdi-refresh
+        span {{$t('action.refresh')}}
     v-form
       v-layout(wrap, style="width:100%")
         v-flex(sm12, md6, lg8)
@@ -8,66 +20,79 @@
           v-select(v-model="search.type", :items="items.type", item-value='value', item-text='name',
             label="题目类型", multiple, clearable)
         v-flex(sm12, md6, lg4)
-          v-autocomplete(v-model="search.course", label="课程", placeholder="查询课程", @blur="querySection",
-            :search-input.sync="input.course", :loading="loading.course", :items="items.course",
-            item-text="name", item-value="id", cache-items, clearable)
+          v-select(v-model="search.chapter", :items="items.chapter", :loading="loading.section", @change="querySection",
+            item-value='id', item-text='name', :label="$t('section.chapter')", clearable)
         v-flex(sm12, md6, lg4)
           v-select(v-model="search.section", :items="items.section", :loading="loading.section", @change="queryKnowledge",
-            item-value='id', item-text='name', label="章节", clearable)
+            item-value='id', item-text='name', :label="$t('section.section')", clearable)
         v-flex(sm12, md6, lg4)
           v-select(v-model="search.knowledge", :items="items.knowledge", :loading="loading.knowledge",
-            item-value='id', item-text='name', label="知识点", clearable)
+            item-value='id', item-text='name', :label="$t('knowledge.name')", clearable)
         v-flex(sm12, md6, lg4)
-          v-switch(v-model="search.isPublic", :label="`是否公开:${search.isPublic?'是':'否'}`")
+          v-switch(v-model="search.isPublic", :label="$t('question.isPublic', [public])")
         v-flex.text-right(sm12, md12, lg8)
           v-spacer.mt-4
           v-btn.mr-4(color="info", outlined, @click="init") 重置条件
           v-btn(color="primary", outlined, @click="handleSearch") 查询
+    v-data-table(:headers="headers", :items="questions", :options.sync="options", multi-sort,
+      :server-items-length="itemsLength", :footer-props="footer", :loading="loading.table")
+      template(v-slot:item.action="{ item }")
 </template>
 
 <script>
 import TableCard from '@/components/table-card'
 import { types } from '@/util/options'
-import { resourceByNameLike } from '@/api/rest'
-import { searchByCourseId } from '@/api/section'
-import { searchBySectionId } from '@/api/knowledge'
+import { sectionByCourseId, sectionByParentId } from '@/api/section'
+import { knowledgeBySectionId } from '@/api/knowledge'
+import { teacherQuestion } from '@/api/teacher'
+import questionMixin from './questionMixin'
+import * as page from '@/util/page'
 
 export default {
   name: 'Question',
   components: { TableCard },
-  data: () => ({
-    search: { course: '', section: '', knowledge: '', name: '', type: '', isPublic: false },
-    input: { course: '', section: '', knowledge: '' },
-    loading: { course: false, section: false, knowledge: false },
-    items: { course: [], section: [], knowledge: [], type: types }
-  }),
+  mixins: [questionMixin],
+  data: function () {
+    return {
+      search: {},
+      loading: {},
+      items: {},
+      questions: [],
+      options: page.options,
+      footer: page.footer,
+      itemsLength: -1,
+      headers: [
+        { text: this.$i18n.t('entity.name'), align: 'left', value: 'name' },
+        { text: this.$i18n.t('question.difficultRate'), align: 'left', value: 'difficultRate' },
+        { text: this.$i18n.t('question.type'), align: 'left', value: 'type' },
+        { text: this.$i18n.t('question.public'), align: 'left', value: 'isPublic' },
+        { text: this.$i18n.t('action.key'), align: 'center', value: 'action', sortable: false }
+      ]
+    }
+  },
   created () {
     this.init()
   },
+  computed: {
+    public () { return this.$i18n.t(this.search.isPublic ? 'action.yes' : 'action.no') }
+  },
   watch: {
-    'input.course' (val) { val && val !== this.search.course && this.queryCourse(val) }
+    options (val) {
+    }
   },
   methods: {
     init () {
-      this.search = { course: '', section: '', knowledge: '', name: '', type: '', isPublic: false }
-      this.input = { course: '', section: '', knowledge: '' }
-      this.loading = { course: false, section: false, knowledge: false }
-      this.items = { course: [], section: [], knowledge: [], type: types }
-    },
-    queryCourse (val) {
-      this.loading.course = true
-      resourceByNameLike('course', val)
-        .then(res => { this.items.course = res.data._embedded.courses })
-        .finally(() => { this.loading.course = false })
+      this.search = { chapter: 0, section: 0, knowledge: 0, name: '', type: '', isPublic: false }
+      this.loading = { chapter: false, section: false, knowledge: false, table: false }
+      this.items = { chapter: [], section: [], knowledge: [], type: types }
+      this.loading.chapter = true
+      sectionByCourseId(this.course.id)
+        .then(res => { this.items.chapter = res.data._embedded.sections })
+        .finally(() => { this.loading.chapter = false })
     },
     querySection () {
-      if (typeof (this.search.course) !== 'number') {
-        this.items.section = []
-        this.items.knowledge = []
-        return
-      }
       this.loading.section = true
-      searchByCourseId(this.search.course)
+      sectionByParentId(this.search.chapter)
         .then(res => { this.items.section = res.data._embedded.sections })
         .finally(() => { this.loading.section = false })
     },
@@ -77,12 +102,17 @@ export default {
         return
       }
       this.loading.knowledge = true
-      searchBySectionId(this.search.section)
+      knowledgeBySectionId(this.search.section)
         .then(res => { this.items.knowledge = res.data._embedded.knowledges })
         .finally(() => { this.loading.knowledge = false })
     },
     handleSearch () {
-      console.log(this.search)
+      let params = Object.assign(page.toPage(this.options), this.search)
+      params.passageId = this.search.chapter
+      params.sectionId = this.search.section
+      params.knowledgeId = this.search.knowledge
+      teacherQuestion(params)
+        .then(res => console.log(res))
     }
   }
 }

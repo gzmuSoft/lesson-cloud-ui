@@ -23,3 +23,14 @@ export const toPage = ({ page, itemsPerPage, sortBy, sortDesc }) => {
     sort: sort.substring(1, sort.length)
   }
 }
+
+export const options = {
+  sortBy: [ 'sort' ],
+  sortDesc: [ false ]
+}
+
+export const footer = {
+  itemsPerPageOptions: [5, 10, 15, 20],
+  showCurrentPage: true,
+  showFirstLastPage: true
+}

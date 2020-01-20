@@ -82,6 +82,12 @@
     "judgement": "Judgement",
     "fillBlank": "Fill Blank",
     "essay": "Essay",
-    "program": "Program"
+    "program": "Program",
+    "isPublic": "Is Public: {0}",
+    "public": "Is Public",
+    "difficultRate": "Difficult Rate",
+    "answer": "Answer",
+    "explanation": "Explanation",
+    "type": "Type"
   }
 }
