@@ -2,8 +2,10 @@
   "start": "Get Start",
   "app": {
     "name": "lesson-cloud",
-    "changeLanguage": "Chinese",
-    "changeTheme": "Change theme"
+    "language": "Chinese",
+    "changeTheme": "Change theme",
+    "home": "Home",
+    "about": "About"
   },
   "base": {
     "welcome": "Welcome",
@@ -41,11 +43,13 @@
     "createTime": "Create Time",
     "modifyUser": "Modify User",
     "modifyTime": "Modify Time",
-    "remark": "Remark"
+    "remark": "Remark",
+    "type": "Type"
   },
   "tip": {
+    "noData": "No data.",
     "course": {
-      "management": "Please select a course, chapter or knowledge point.",
+      "management": "Please select a chapter, section or knowledge point.",
       "self": "Only show yours: {0}",
       "warningView": "Please select the course you want to view."
     },

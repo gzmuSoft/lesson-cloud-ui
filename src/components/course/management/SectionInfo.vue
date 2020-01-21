@@ -25,14 +25,6 @@
                 v-select(v-model="input.parentId", :items="parents", item-value='id', item-text='name',
                   :label="$t('section.parent')")
         tr
-          td {{$t("section.type")}}
-          td
-            v-edit-dialog(:return-value.sync="input.type", @close="close", large,
-              :cancel-text="$t('action.cancel')", :save-text="$t('action.save')") {{type}}
-              template(v-slot:input)
-                v-select(v-model="input.type", :items="types", item-value='value', item-text='name',
-                  :label="$t('section.type')")
-        tr
           td {{$t("entity.createUser")}}
           td {{input.createUser}}
         tr
@@ -51,34 +43,55 @@
               :cancel-text="$t('action.cancel')", :save-text="$t('action.save')") {{input.remark}}
               template(v-slot:input)
                 v-textarea(v-model="input.remark", :label="$t('entity.remark')", counter, autofocus, rows="2")
-    v-expand-transition
-      .text-right(v-show="change")
-        v-btn(color="success", outlined, @click="save") {{$t("action.save")}}
+    .text-right.mt-5
+      v-btn(color="error", outlined, @click="handleDelete", :loading="loading.delete") {{$t("action.delete")}}
+      v-btn.ml-4(color="success", outlined, @click="handleSave", v-show="change", :loading="loading.save") {{$t("action.save")}}
 </template>
 
 <script>
 import { infoMixin } from './infoMixin'
 import { sectionTypes } from '@/util/options'
+import * as restApi from '@/api/rest'
 
 export default {
   name: 'SectionInfo',
   mixins: [infoMixin],
   props: { parents: { type: Array, required: true } },
   data: () => ({
-    types: sectionTypes
+    types: sectionTypes,
+    loading: {
+      delete: false,
+      save: false
+    }
   }),
   computed: {
     parent () {
       if (this.input.parentId === 0) return '无'
       return this._.find(this.parents, { id: this.input.parentId }).name
-    },
-    type () {
-      return this._.find(this.types, { value: this.input.type }).name
     }
   },
   methods: {
-    save () {
-      // TODO: 修改章节逻辑
+    handleSave () {
+      this.loading.save = true
+      restApi.putOne('section', this.input)
+        .then(res => {
+          this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+          this.$emit('success', res.data)
+        }).finally(() => {
+          this.loading.save = false
+        })
+    },
+    handleDelete () {
+      this.$confirm({}, () => {
+        this.loading.delete = true
+        restApi.deleteOne('section', this.input.id)
+          .then(() => {
+            this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+            this.$emit('delete', this.input)
+          }).finally(() => {
+            this.loading.delete = false
+          })
+      })
     }
   }
 }

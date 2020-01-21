@@ -10,6 +10,6 @@ export const types = [
 ]
 
 export const sectionTypes = [
-  { name: i18n.t('section.chapter'), value: 'CHAPTER' },
-  { name: i18n.t('section.section'), value: 'SECTION' }
+  { name: i18n.t('section.chapter'), value: 0 },
+  { name: i18n.t('section.section'), value: 1 }
 ]

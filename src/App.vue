@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { initApplication } from '@/plugins/baseMixin'
+import { initApplication } from '@/mixin/baseMixin'
 
 export default {
   name: 'App',

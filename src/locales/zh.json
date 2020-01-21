@@ -2,8 +2,10 @@
   "start": "开始使用",
   "app": {
     "name": "云课程",
-    "changeLanguage": "英文",
-    "changeTheme": "切换主题"
+    "language": "英文",
+    "changeTheme": "切换主题",
+    "home": "主页",
+    "about": "关于"
   },
   "base": {
     "welcome": "欢迎你",
@@ -41,11 +43,13 @@
     "createTime": "创建日期",
     "modifyUser": "更新用户",
     "modifyTime": "更新时间",
-    "remark": "备注"
+    "remark": "备注",
+    "type": "类型"
   },
   "tip": {
+    "noData": "暂无数据",
     "course": {
-      "management": "请选择一个课程、章节或知识点",
+      "management": "请选择一个章、节或知识点",
       "self": "只显示自己的课程: {0}",
       "warningView": "请选择您要查看的课程。"
     },

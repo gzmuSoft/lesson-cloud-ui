@@ -1,6 +1,6 @@
 <template lang="pug">
   #teacher-course
-    course-edit(:course="course", ref="edit", @save="handleSave")
+    course-edit(:item="course", ref="edit", @save="handleSave")
     v-scroll-y-transition(hide-on-leave)
       course-list(v-if="course === null", ref="list")
         template(v-slot:action)
@@ -43,11 +43,11 @@ export default {
     },
     handleEdit (item) {
       this.$refs.edit.dialog = true
-      this.$refs.edit.course = item
+      this.$refs.edit.item = item
     },
     handleAdd () {
       this.$refs.edit.dialog = true
-      this.$refs.edit.course = null
+      this.$refs.edit.item = null
     },
     handleSave (item) {
       this.$refs.edit.loading = true
@@ -73,8 +73,8 @@ export default {
       }
     },
     handleDelete (item) {
-      this.$refs.edit.loading = true
       this.$confirm({}, () => {
+        this.$refs.edit.loading = true
         restApi.deleteOne('course', item.id)
           .then(() => {
             this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })

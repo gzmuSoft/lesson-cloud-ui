@@ -1,6 +1,13 @@
 <template lang="pug">
-  #lesson-index
-    v-btn(color="primary", @click="start") {{$t("start")}}
+  v-card#lesson-index
+    v-app-bar(absolute, color="rgba(250, 250, 250, 0.87)", elevate-on-scroll, scroll-target="#scrolling-techniques")
+      v-toolbar-title {{$t("app.name")}}
+      v-spacer
+      v-btn(text) {{$t("app.language")}}
+      v-btn(text) {{$t("app.home")}}
+      v-btn(text) {{$t("app.about")}}
+      v-btn(text, @click="start") {{$t("start")}}
+    v-img
 </template>
 
 <script>

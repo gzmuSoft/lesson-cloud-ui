@@ -33,7 +33,10 @@ export const getAllByPage = (resource, params) => {
 export const deleteOne = (resource, id) => {
   return axios.request({
     url: `/${resource}/${id}`,
-    method: 'delete'
+    method: 'patch',
+    data: {
+      isEnable: false
+    }
   })
 }
 

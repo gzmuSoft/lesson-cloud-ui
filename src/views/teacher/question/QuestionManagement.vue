@@ -45,13 +45,13 @@ import { types } from '@/util/options'
 import { sectionByCourseId, sectionByParentId } from '@/api/section'
 import { knowledgeBySectionId } from '@/api/knowledge'
 import { teacherQuestion } from '@/api/teacher'
-import questionMixin from './questionMixin'
+import teacherMixin from '@/views/teacher/teacherMixin'
 import * as page from '@/util/page'
 
 export default {
   name: 'Question',
   components: { TableCard },
-  mixins: [questionMixin],
+  mixins: [teacherMixin],
   data: function () {
     return {
       search: {},

@@ -14,15 +14,15 @@
                 v-text-field(type="number", v-model="input.period", :label="$t('course.period')", clearable)
             v-row
               v-col(md="6", sm="12")
-                v-text-field(type="number", v-model="input.credit", :label="$t('course.credit')", clearable)
+                v-text-field(type="number", v-model="input.credit", min="0.00", max="100.00", step="0.05", :label="$t('course.credit')", clearable)
               v-col(md="6", sm="12")
-                v-text-field(type="number", v-model="input.sort", min="0.00", max="100.00", step="0.05", :label="$t('entity.sort')", clearable)
-            v-row(v-if="course.id !== 0")
+                v-text-field(type="number", v-model="input.sort", :label="$t('entity.sort')", clearable)
+            v-row(v-if="item.id !== 0")
               v-col(md="6", sm="12")
                 v-text-field(v-model="input.createUser", disabled, :label="$t('entity.createUser')")
               v-col(md="6", sm="12")
                 v-text-field(v-model="input.createTime", disabled, :label="$t('entity.createTime')")
-            v-row(v-if="course.id !== 0")
+            v-row(v-if="item.id !== 0")
               v-col(md="6", sm="12")
                 v-text-field(v-model="input.modifyUser", disabled, :label="$t('entity.modifyUser')")
               v-col(md="6", sm="12")
@@ -37,30 +37,16 @@
 </template>
 
 <script>
+import formMixin from '@/mixin/formMixin'
 export default {
   name: 'CourseEdit',
+  mixins: [formMixin],
   data: () => ({
-    dialog: false,
-    loading: false,
-    input: null,
-    course: {}
+    item: {}
   }),
-  created () {
-    this.initCourse()
-    this.init()
-  },
-  watch: {
-    course (val) {
-      if (val === null) this.initCourse()
-      this.init()
-    }
-  },
   methods: {
-    init () {
-      this.input = this._.cloneDeep(this.course)
-    },
-    initCourse () {
-      this.course = {
+    initItem () {
+      this.item = {
         id: 0,
         name: '',
         type: '',

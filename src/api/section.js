@@ -8,19 +8,11 @@ export const sectionByCourseId = (courseId) => {
   })
 }
 
-export const sectionByCourseAndType = (courseId, type) => {
+export const sectionByCourseAndPassage = (courseId, parentId) => {
   return axios.request({
-    url: `/section/search/courseAndType`,
+    url: `/section/search/courseAndPassage`,
     method: 'get',
-    params: { courseId, type }
-  })
-}
-
-export const sectionByCourseAndParentAndType = (courseId, parentId, type) => {
-  return axios.request({
-    url: `/section/search/courseAndParentAndType`,
-    method: 'get',
-    params: { courseId, parentId, type }
+    params: { courseId, passageId: parentId }
   })
 }
 

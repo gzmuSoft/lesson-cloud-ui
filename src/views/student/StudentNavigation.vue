@@ -18,7 +18,7 @@
           template(v-slot:activator="{ on }")
             v-list-item(link, v-on="on", @click="handleLocale")
               v-icon mdi-all-inclusive
-          span {{$t("app.changeLanguage")}}
+          span {{$t("app.language")}}
         v-tooltip(right)
           template(v-slot:activator="{ on }")
             v-list-item(link, v-on="on")
@@ -41,7 +41,7 @@
 
 <script>
 import { logoutUrl } from '@/api/oauth'
-import { initMenu, baseMethods } from '@/plugins/baseMixin'
+import { initMenu, baseMethods } from '@/mixin/baseMixin'
 import { mapState } from 'vuex'
 
 export default {

@@ -14,7 +14,7 @@
 import StudentNavigation from './StudentNavigation'
 import StudentTopBar from './StudentTopBar'
 import { mapState } from 'vuex'
-import { initUser } from '@/plugins/baseMixin'
+import { initUser } from '@/mixin/baseMixin'
 
 export default {
   name: 'Student',

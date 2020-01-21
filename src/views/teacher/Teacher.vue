@@ -13,7 +13,7 @@
 <script>
 import TeacherNavigation from './TeacherNavigation'
 import TeacherTopBar from './TeacherTopBar'
-import { initUser } from '@/plugins/baseMixin'
+import { initUser } from '@/mixin/baseMixin'
 
 export default {
   name: 'Teacher',

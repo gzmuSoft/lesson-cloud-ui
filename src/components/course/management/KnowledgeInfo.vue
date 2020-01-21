@@ -35,23 +35,48 @@
               :cancel-text="$t('action.cancel')", :save-text="$t('action.save')") {{input.remark}}
               template(v-slot:input)
                 v-textarea(v-model="input.remark", :label="$t('entity.remark')", counter, autofocus, rows="2")
-    v-expand-transition
-      .text-right(v-show="change")
-        v-btn(color="success", outlined, @click="save") {{$t("action.save")}}
+    .text-right
+      v-btn(color="error", outlined, @click="handleDelete", :loading="loading.delete") {{$t("action.delete")}}
+      v-btn.ml-4(color="success", outlined, @click="handleSave", :loading="loading.save", v-show="change") {{$t("action.save")}}
 </template>
 
 <script>
 import { infoMixin } from './infoMixin'
+import * as restApi from '@/api/rest'
 
 export default {
   name: 'KnowledgeInfo',
   mixins: [infoMixin],
   data: () => ({
-    //
+    loading: {
+      delete: false,
+      save: false
+    }
   }),
   methods: {
-    save () {
-      // TODO: 修改知识点逻辑
+    handleSave () {
+      this.loading.save = true
+      restApi.putOne('knowledge', this.input)
+        .then(res => {
+          this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+          Object.assign(this.input, res.data)
+          this.change = false
+          this.$emit('success', this.input)
+        }).finally(() => {
+          this.loading.save = false
+        })
+    },
+    handleDelete () {
+      this.$confirm({}, () => {
+        this.loading.delete = true
+        restApi.deleteOne('knowledge', this.input.id)
+          .then(() => {
+            this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+            this.$emit('delete', this.input)
+          }).finally(() => {
+            this.loading.delete = false
+          })
+      })
     }
   }
 }

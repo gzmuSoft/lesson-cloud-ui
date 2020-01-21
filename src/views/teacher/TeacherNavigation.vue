@@ -19,7 +19,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { initMenu } from '@/plugins/baseMixin'
+import { initMenu } from '@/mixin/baseMixin'
 
 export default {
   name: 'TeacherNavigation',

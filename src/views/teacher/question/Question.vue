@@ -14,11 +14,11 @@
 <script>
 import Course from '@/components/course'
 import QuestionManagement from './QuestionManagement'
-import questionMixin from './questionMixin'
+import teacherMixin from '@/views/teacher/teacherMixin'
 export default {
   name: 'Question',
   components: { Course, QuestionManagement },
-  mixins: [questionMixin],
+  mixins: [teacherMixin],
   data: () => ({
   }),
   methods: {

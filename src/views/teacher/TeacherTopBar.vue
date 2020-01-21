@@ -11,7 +11,7 @@
       template(v-slot:activator="{ on }")
         v-btn.mr-2(text, icon, v-on="on", @click="handleLocale")
           v-icon mdi-all-inclusive
-      span {{$t("app.changeLanguage")}}
+      span {{$t("app.language")}}
     v-tooltip(bottom)
       template(v-slot:activator="{ on }")
         v-btn.mr-2(text, icon, v-on="on")
@@ -27,7 +27,7 @@
 
 <script>
 import { logoutUrl } from '@/api/oauth'
-import { baseMethods } from '@/plugins/baseMixin'
+import { baseMethods } from '@/mixin/baseMixin'
 
 export default {
   name: 'TeacherTopBar',

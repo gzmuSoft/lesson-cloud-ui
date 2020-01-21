@@ -10,7 +10,7 @@ const routes = [
     path: '/',
     name: 'index',
     meta: { public: true },
-    component: () => import(/* webpackChunkName: "Index" */ '@/views/Index')
+    component: () => import(/* webpackChunkName: "Index" */ '@/views/home')
   },
   {
     path: '/login',
