@@ -14,9 +14,16 @@
     "logout": "退出"
   },
   "menu": {
-    "dashboard": "仪表盘",
-    "question": "题库管理",
-    "course": "课程管理"
+    "base": {
+      "dashboard": "仪表盘"
+    },
+    "teacher": {
+      "question": "题库管理",
+      "course": "课程管理"
+    },
+    "student": {
+      "course": "我的课程"
+    }
   },
   "action": {
     "key": "操作",
@@ -59,6 +66,10 @@
     },
     "question": {
       "delete": "您确定删除吗？"
+    },
+    "semester": {
+      "select": "请选择学期",
+      "rebuild": "重修"
     }
   },
   "course": {
@@ -93,5 +104,9 @@
     "answer": "答案",
     "explanation": "答案解析",
     "type": "类型"
+  },
+  "semester": {
+    "courseName": "课程",
+    "className": "班级"
   }
 }

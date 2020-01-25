@@ -36,6 +36,11 @@ const routes = [
         path: 'index',
         name: 'student',
         component: () => import(/* webpackChunkName: "main" */ '@/views/student/main')
+      },
+      {
+        path: 'course',
+        name: 'student-course',
+        component: () => import(/* webpackChunkName: "main" */ '@/views/student/course')
       }
     ]
   },

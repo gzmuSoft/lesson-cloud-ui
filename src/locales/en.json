@@ -14,9 +14,16 @@
     "logout": "Logout"
   },
   "menu": {
-    "dashboard": "Dashboard",
-    "question": "Question",
-    "course": "Course"
+    "base": {
+      "dashboard": "Dashboard"
+    },
+    "teacher": {
+      "question": "Question",
+      "course": "Course"
+    },
+    "student": {
+      "course": "Course"
+    }
   },
   "action": {
     "key": "Action",
@@ -59,6 +66,10 @@
     },
     "question": {
       "delete": "Are you sure to delete？"
+    },
+    "semester": {
+      "select": "Please select a semester.",
+      "rebuild": "Rebuild"
     }
   },
   "course": {
@@ -93,5 +104,9 @@
     "answer": "Answer",
     "explanation": "Explanation",
     "type": "Type"
+  },
+  "semester": {
+    "courseName": "Course",
+    "className": "Class"
   }
 }

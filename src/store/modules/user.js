@@ -7,6 +7,7 @@ const state = {
 }
 
 const getters = {
+  studentClass: state => state.student.classesId
 }
 
 const mutations = {

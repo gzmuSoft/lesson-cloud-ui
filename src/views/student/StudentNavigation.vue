@@ -4,7 +4,7 @@
       v-navigation-drawer(v-model="drawer", mini-variant, mini-variant-width="56", dark)
         v-tooltip(right)
           template(v-slot:activator="{ on }")
-            v-list-item(v-on="on")
+            v-list-item(v-on="on", style="padding-left: 8px;")
               v-list-item-avatar
                 v-img(:src="user.avatar")
           span {{$t("base.personalSetting")}}
