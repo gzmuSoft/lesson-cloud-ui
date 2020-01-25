@@ -37,6 +37,8 @@
     v-data-table(:headers="headers", :items="questions", :options.sync="options", multi-sort,
       :server-items-length="itemsLength", :footer-props="footer", :loading="loading.table")
       template(v-slot:item.action="{ item }")
+      template(v-slot:item.isPublic="{ item }")
+        v-chip(:color="item.isPublic?'success':'error'") {{item.isPublic? '是' : '否'}}
 </template>
 
 <script>
@@ -62,10 +64,11 @@ export default {
       footer: page.footer,
       itemsLength: -1,
       headers: [
-        { text: this.$i18n.t('entity.name'), align: 'left', value: 'name' },
+        { text: this.$i18n.t('entity.name'), align: 'left', value: 'name', width: '50%' },
         { text: this.$i18n.t('question.difficultRate'), align: 'left', value: 'difficultRate' },
         { text: this.$i18n.t('question.type'), align: 'left', value: 'type' },
         { text: this.$i18n.t('question.public'), align: 'left', value: 'isPublic' },
+        { text: this.$i18n.t('entity.sort'), align: 'left', value: 'sort' },
         { text: this.$i18n.t('action.key'), align: 'center', value: 'action', sortable: false }
       ]
     }
@@ -77,7 +80,8 @@ export default {
     public () { return this.$i18n.t(this.search.isPublic ? 'action.yes' : 'action.no') }
   },
   watch: {
-    options (val) {
+    options () {
+      this.handleSearch()
     }
   },
   methods: {
@@ -87,8 +91,15 @@ export default {
       this.items = { chapter: [], section: [], knowledge: [], type: types }
       this.loading.chapter = true
       sectionByCourseId(this.course.id)
-        .then(res => { this.items.chapter = res.data._embedded.sections })
+        .then(res => {
+          this.items.chapter = res.data._embedded.sections
+          this.itemsLength = res.data.totalElements
+        })
         .finally(() => { this.loading.chapter = false })
+      teacherQuestion({ courseId: this.course.id })
+        .then(res => {
+          this.questions = res.data.content
+        })
     },
     querySection () {
       this.loading.section = true
@@ -107,12 +118,19 @@ export default {
         .finally(() => { this.loading.knowledge = false })
     },
     handleSearch () {
+      this.loading.table = true
       let params = Object.assign(page.toPage(this.options), this.search)
+      params.courseId = this.course.id
       params.passageId = this.search.chapter
       params.sectionId = this.search.section
       params.knowledgeId = this.search.knowledge
+      this.questions = []
       teacherQuestion(params)
-        .then(res => console.log(res))
+        .then(res => {
+          this.questions = res.data.content
+          this.itemsLength = res.data.totalElements
+        })
+        .finally(() => { this.loading.table = false })
     }
   }
 }

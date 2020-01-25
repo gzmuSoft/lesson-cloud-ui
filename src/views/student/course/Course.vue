@@ -10,7 +10,7 @@
       template(v-slot:default="props")
         v-row
           v-col(v-for="item in props.items", :key="item.key", cols="12", sm="6", md="4", lg="3")
-            v-card
+            v-card(@click="handleClick(item)")
               v-card-title
                 .subheading.font-weight-bold(:class="item.standard?'blue--text':'red--text'") {{item.courseName}}
               v-divider
@@ -75,6 +75,9 @@ export default {
           })
           this.itemsLength = res.data.totalElements
         }).finally(() => { this.loading.table = false })
+    },
+    handleClick (item) {
+      // TODO: 跳转到课程的测试页面
     }
   }
 }
