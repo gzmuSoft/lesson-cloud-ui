@@ -7,7 +7,7 @@ const index = (option, ok = () => { console.log('ok') }) => {
   const defaultOption = {
     width: 290,
     titleClass: '',
-    title: i18n.t('tip.question.delete'),
+    title: i18n.t('tip.action.delete'),
     content: '',
     contentClass: '',
     cancelClass: 'error',

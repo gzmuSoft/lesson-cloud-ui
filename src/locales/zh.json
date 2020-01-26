@@ -62,10 +62,15 @@
     },
     "action": {
       "success": "操作成功",
-      "fail": "操作失败"
+      "fail": "操作失败",
+      "delete": "您确定删除吗？"
     },
     "question": {
-      "delete": "您确定删除吗？"
+      "info": "问题详情",
+      "difficultRate": "容易：1-25，普通：26-50，一般：51-75，困难：76-100",
+      "option": "选项 {0}",
+      "right": "正确",
+      "error": "错误"
     },
     "semester": {
       "select": "请选择学期",
@@ -95,9 +100,10 @@
     "singleSel": "单选题",
     "multiSel": "多选题",
     "judgement": "判断题",
+    "judgementAnswer": "判断题答案",
     "fillBlank": "填空题",
     "essay": "问答题",
-    "program": "判断题",
+    "program": "编程题",
     "isPublic": "是否公开: {0}",
     "public": "是否公开",
     "difficultRate": "难度系数",

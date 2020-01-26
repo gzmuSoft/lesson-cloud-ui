@@ -62,10 +62,15 @@
     },
     "action": {
       "success": "Success !",
-      "fail": "Failed !"
+      "fail": "Failed !",
+      "delete": "Are you sure to delete？"
     },
     "question": {
-      "delete": "Are you sure to delete？"
+      "info": "Question Info",
+      "difficultRate": "Easy：1-25，Ordinary：26-50，General：51-75，Difficult：76-100",
+      "option": "Option {0}",
+      "right": "Right",
+      "error": "Error"
     },
     "semester": {
       "select": "Please select a semester.",
@@ -95,6 +100,7 @@
     "singleSel": "Single Sel",
     "multiSel": "Multi Sel",
     "judgement": "Judgement",
+    "judgementAnswer": "Judgement Answer",
     "fillBlank": "Fill Blank",
     "essay": "Essay",
     "program": "Program",

@@ -6,7 +6,6 @@ export default {
       search: {},
       loading: {},
       items: {},
-      questions: [],
       options: page.options,
       footer: page.footer,
       itemsLength: -1,

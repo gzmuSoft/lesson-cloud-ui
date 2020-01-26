@@ -15,10 +15,10 @@
     v-form
       v-layout(wrap, style="width:100%")
         v-flex(sm12, md6, lg8)
-          v-text-field(v-model="search.name", label="题目名称", clearable)
+          v-text-field(v-model="search.name", :label="$t('entity.name')", clearable)
         v-flex(sm12, md6, lg4)
           v-select(v-model="search.type", :items="items.type", item-value='value', item-text='name',
-            label="题目类型", multiple, clearable)
+            :label="$t('question.type')", multiple, clearable)
         v-flex(sm12, md6, lg4)
           v-select(v-model="search.chapter", :items="items.chapter", :loading="loading.section", @change="querySection",
             item-value='id', item-text='name', :label="$t('section.chapter')", clearable)
@@ -37,8 +37,16 @@
     v-data-table(:headers="headers", :items="questions", :options.sync="options", multi-sort,
       :server-items-length="itemsLength", :footer-props="footer", :loading="loading.table")
       template(v-slot:item.action="{ item }")
+        v-tooltip(top)
+          template(v-slot:activator="{ on }")
+            v-btn.mr-2(icon, x-small, fab, color="success", v-on="on", @click="handleSee(item)")
+              v-icon mdi-eye
+          span {{$t('action.view')}}
+      template(v-slot:item.type="{ item }")
+        span {{showType(item.type)}}
       template(v-slot:item.isPublic="{ item }")
         v-chip(:color="item.isPublic?'success':'error'") {{item.isPublic? '是' : '否'}}
+    question-see(ref="see")
 </template>
 
 <script>
@@ -48,21 +56,17 @@ import { sectionByCourseId, sectionByParentId } from '@/api/section'
 import { knowledgeBySectionId } from '@/api/knowledge'
 import { teacherQuestion } from '@/api/teacher'
 import teacherMixin from '@/views/teacher/teacherMixin'
+import pageMixin from '@/mixin/pageMixin'
+import QuestionSee from './QuestionSee'
 import * as page from '@/util/page'
 
 export default {
   name: 'Question',
-  components: { TableCard },
-  mixins: [teacherMixin],
+  components: { TableCard, QuestionSee },
+  mixins: [teacherMixin, pageMixin],
   data: function () {
     return {
-      search: {},
-      loading: {},
-      items: {},
       questions: [],
-      options: page.options,
-      footer: page.footer,
-      itemsLength: -1,
       headers: [
         { text: this.$i18n.t('entity.name'), align: 'left', value: 'name', width: '50%' },
         { text: this.$i18n.t('question.difficultRate'), align: 'left', value: 'difficultRate' },
@@ -124,13 +128,25 @@ export default {
       params.passageId = this.search.chapter
       params.sectionId = this.search.section
       params.knowledgeId = this.search.knowledge
-      this.questions = []
       teacherQuestion(params)
         .then(res => {
+          this.questions = []
           this.questions = res.data.content
           this.itemsLength = res.data.totalElements
         })
         .finally(() => { this.loading.table = false })
+    },
+    showType (value) {
+      return this._.find(types, { value: value }).name
+    },
+    handleSee (item) {
+      item.questionDetail = {
+        option: [],
+        answer: []
+      }
+      this.$refs.see.question = this._.cloneDeep(item)
+      this.$refs.see.default = this._.cloneDeep(item)
+      this.$refs.see.dialog = true
     }
   }
 }
