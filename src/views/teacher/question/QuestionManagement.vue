@@ -32,8 +32,9 @@
           v-switch(v-model="search.isPublic", :label="$t('question.isPublic', [public])")
         v-flex.text-right(sm12, md12, lg8)
           v-spacer.mt-4
-          v-btn.mr-4(color="info", outlined, @click="init") 重置条件
-          v-btn(color="primary", outlined, @click="handleSearch") 查询
+          v-btn.mr-4(color="info", outlined, @click="init") {{$t('action.reset')}}
+          v-btn.mr-4(color="primary", outlined, @click="handleSearch") {{$t('action.query')}}
+          v-btn(color="secondary", outlined, @click="handleAdd") {{$t('action.add')}}
     v-data-table(:headers="headers", :items="questions", :options.sync="options", multi-sort,
       :server-items-length="itemsLength", :footer-props="footer", :loading="loading.table")
       template(v-slot:item.action="{ item }")
@@ -46,7 +47,7 @@
         span {{showType(item.type)}}
       template(v-slot:item.isPublic="{ item }")
         v-chip(:color="item.isPublic?'success':'error'") {{item.isPublic? '是' : '否'}}
-    question-see(ref="see")
+    question-see(ref="see", @updateSuccess="handleUpdateSuccess", @saveSuccess="handleSaveSuccess")
 </template>
 
 <script>
@@ -140,13 +141,31 @@ export default {
       return this._.find(types, { value: value }).name
     },
     handleSee (item) {
-      item.questionDetail = {
-        option: [],
-        answer: []
+      if (!item.questionDetail.hasOwnProperty('option')) {
+        item.questionDetail = { option: [], answer: [] }
       }
       this.$refs.see.question = this._.cloneDeep(item)
       this.$refs.see.default = this._.cloneDeep(item)
       this.$refs.see.dialog = true
+    },
+    handleAdd () {
+      this.handleSee({
+        id: null,
+        name: '',
+        type: 'SINGLE_SEL',
+        answer: '0',
+        sort: 1,
+        isPublic: false,
+        difficultRate: 50,
+        questionDetail: {}
+      })
+    },
+    handleUpdateSuccess (item) {
+      this.questions.splice(this._.findIndex(this.questions, { id: item.id }), 1, item)
+    },
+    handleSaveSuccess (item) {
+      this.questions.unshift(item)
+      this.itemsLength += 1
     }
   }
 }

@@ -8,7 +8,7 @@
           | {{$t('tip.question.info')}}
         v-spacer
         v-toolbar-items
-          v-btn(icon, dark, @click="dialog = false")
+          v-btn(icon, dark, x-small, fab, @click="dialog = false")
             v-icon mdi-close
       v-card-text
         v-form
@@ -50,10 +50,25 @@
           v-row
             v-col(cols="12")
               v-textarea(v-model="question.remark", :label="$t('entity.remark')", rows="4")
+          v-row(v-if="question.id !== null")
+            v-col(md="6", sm="12")
+              v-text-field(v-model="question.createUser", disabled, :label="$t('entity.createUser')")
+            v-col(md="6", sm="12")
+              v-text-field(v-model="question.createTime", disabled, :label="$t('entity.createTime')")
+          v-row(v-if="question.id !== null")
+            v-col(md="6", sm="12")
+              v-text-field(v-model="question.modifyUser", disabled, :label="$t('entity.modifyUser')")
+            v-col(md="6", sm="12")
+              v-text-field(v-model="question.modifyTime", disabled, :label="$t('entity.modifyTime')")
+      v-card-actions.mr-2
+        v-spacer
+        v-btn(color="warning", outlined, @click="handleReset") {{$t("action.reset")}}
+        v-btn(color="success", outlined, @click="handleSave", :loading="loading") {{$t("action.save")}}
 </template>
 
 <script>
 import { types } from '@/util/options'
+import * as restApi from '@/api/rest'
 
 export default {
   name: 'QuestionSee',
@@ -61,6 +76,7 @@ export default {
     dialog: false,
     question: null,
     default: null,
+    loading: false,
     items: {}
   }),
   created () {
@@ -101,6 +117,29 @@ export default {
     handleTypeChange () {
       this.question.questionDetail.answer = []
       this.question.questionDetail.option = []
+    },
+    handleReset () { this.question = this._.cloneDeep(this.default) },
+    handleSave () {
+      this.loading = true
+      if (this.question.id === null) {
+        restApi.addOne('question', this.question)
+          .then(res => {
+            this.dialog = false
+            this.$emit('saveSuccess', res.data)
+            this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+          })
+          .finally(() => { this.loading = false })
+      } else {
+        restApi.putOne('question', this.question)
+          .then(res => {
+            this.question = this._.cloneDeep(res.data)
+            this.default = this._.cloneDeep(res.data)
+            this.dialog = false
+            this.$emit('updateSuccess', res.data)
+            this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+          })
+          .finally(() => { this.loading = false })
+      }
     }
   }
 }
