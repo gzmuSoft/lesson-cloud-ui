@@ -23,6 +23,21 @@
             v-col(cols="12", md="6")
               v-switch(v-model="question.isPublic", :label="$t('question.isPublic', [public])")
           v-row
+            v-col(cols="12", md="6")
+              v-select(v-model="question.chapter", :items="items.chapter", :loading="loading.chapter", @change="querySection",
+                item-value='id', item-text='name', :label="$t('section.chapter')", clearable)
+            v-col(cols="12", md="6")
+              v-select(v-model="question.section", :items="items.section", :loading="loading.section", @change="queryKnowledge",
+                item-value='id', item-text='name', :label="$t('section.section')", clearable)
+          v-row
+            v-col(cols="12", md="6")
+              v-select(v-model="question.knowledge", :items="items.knowledge", :loading="loading.knowledge", @change="handleKnowledge",
+                item-value='id', item-text='name', :label="$t('knowledge.name')", clearable, return-object)
+            v-col(cols="12", md="6")
+              span {{$t("knowledge.name")}}：
+              v-chip.mr-2.mb-2(v-for="(k,index) in knowledge", :key="index", close, @click:close="knowledge.splice(index, 1)")
+                | {{k.name}}
+          v-row
             v-col(cols="12")
               v-slider(v-model="question.difficultRate", thumb-label, :label="$t('question.difficultRate')",
                 min="1", max="100", track-color="grey", :color="color", :hint="$t('tip.question.difficultRate')",
@@ -63,12 +78,14 @@
       v-card-actions.mr-2
         v-spacer
         v-btn(color="warning", outlined, @click="handleReset") {{$t("action.reset")}}
-        v-btn(color="success", outlined, @click="handleSave", :loading="loading") {{$t("action.save")}}
+        v-btn(color="success", outlined, @click="handleSave", :loading="loading.save") {{$t("action.save")}}
 </template>
 
 <script>
 import { types } from '@/util/options'
-import * as restApi from '@/api/rest'
+import { sectionByParentId } from '@/api/section'
+import { knowledgeBySectionId } from '@/api/knowledge'
+import { questionSaveOrUpdate } from '@/api/question'
 
 export default {
   name: 'QuestionSee',
@@ -76,8 +93,14 @@ export default {
     dialog: false,
     question: null,
     default: null,
-    loading: false,
-    items: {}
+    loading: {
+      save: false,
+      chapter: false,
+      section: false,
+      knowledge: false
+    },
+    items: {},
+    knowledge: []
   }),
   created () {
     this.init()
@@ -97,6 +120,22 @@ export default {
     },
     isAnswer (index) {
       return this.question.questionDetail.answer.includes(index)
+    },
+    querySection () {
+      this.loading.section = true
+      sectionByParentId(this.question.chapter)
+        .then(res => { this.items.section = res.data._embedded.sections })
+        .finally(() => { this.loading.section = false })
+    },
+    queryKnowledge () {
+      if (typeof (this.question.section) !== 'number') {
+        this.items.knowledge = []
+        return
+      }
+      this.loading.knowledge = true
+      knowledgeBySectionId(this.question.section)
+        .then(res => { this.items.knowledge = res.data._embedded.knowledges })
+        .finally(() => { this.loading.knowledge = false })
     },
     handleAddOption () {
       this.question.questionDetail.option.push('')
@@ -118,28 +157,20 @@ export default {
       this.question.questionDetail.answer = []
       this.question.questionDetail.option = []
     },
+    handleKnowledge (item) {
+      if (typeof (item) === 'undefined' || this._.findIndex(this.knowledge, { id: item.id }) > -1) return
+      this.knowledge.push(item)
+    },
     handleReset () { this.question = this._.cloneDeep(this.default) },
     handleSave () {
-      this.loading = true
-      if (this.question.id === null) {
-        restApi.addOne('question', this.question)
-          .then(res => {
-            this.dialog = false
-            this.$emit('saveSuccess', res.data)
-            this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
-          })
-          .finally(() => { this.loading = false })
-      } else {
-        restApi.putOne('question', this.question)
-          .then(res => {
-            this.question = this._.cloneDeep(res.data)
-            this.default = this._.cloneDeep(res.data)
-            this.dialog = false
-            this.$emit('updateSuccess', res.data)
-            this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
-          })
-          .finally(() => { this.loading = false })
-      }
+      this.loading.save = true
+      questionSaveOrUpdate(this.knowledge.map(k => k.id), this._.cloneDeep(this.question), this.question.questionDetail)
+        .then(res => {
+          if (this.question.id === null) this.$emit('saveSuccess', res.data)
+          else this.$emit('updateSuccess', res.data)
+          this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+          this.dialog = false
+        }).finally(() => { this.loading.save = false })
     }
   }
 }

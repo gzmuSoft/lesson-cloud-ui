@@ -6,9 +6,13 @@ export default {
       course: 'course'
     })
   },
+  created () {
+    this.init()
+  },
   methods: {
     ...mapActions('teacher', {
       setCourse: 'setCourse'
-    })
+    }),
+    init () {}
   }
 }

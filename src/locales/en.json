@@ -19,7 +19,8 @@
     },
     "teacher": {
       "question": "Question",
-      "course": "Course"
+      "course": "Course",
+      "exam": "Exam"
     },
     "student": {
       "course": "Course"
@@ -41,7 +42,8 @@
     "yes": "Yes",
     "no": "No",
     "back": "Back",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "newExam": "New Exam"
   },
   "entity": {
     "name": "Name",

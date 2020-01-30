@@ -20,7 +20,7 @@
           v-select(v-model="search.type", :items="items.type", item-value='value', item-text='name',
             :label="$t('question.type')", multiple, clearable)
         v-flex(sm12, md6, lg4)
-          v-select(v-model="search.chapter", :items="items.chapter", :loading="loading.section", @change="querySection",
+          v-select(v-model="search.chapter", :items="items.chapter", :loading="loading.chapter", @change="querySection",
             item-value='id', item-text='name', :label="$t('section.chapter')", clearable)
         v-flex(sm12, md6, lg4)
           v-select(v-model="search.section", :items="items.section", :loading="loading.section", @change="queryKnowledge",
@@ -43,6 +43,11 @@
             v-btn.mr-2(icon, x-small, fab, color="success", v-on="on", @click="handleSee(item)")
               v-icon mdi-eye
           span {{$t('action.view')}}
+        v-tooltip(top)
+          template(v-slot:activator="{ on }")
+            v-btn.mr-2(icon, x-small, fab, color="error", v-on="on", @click="handleDelete(item)")
+              v-icon mdi-delete
+          span {{$t('action.delete')}}
       template(v-slot:item.type="{ item }")
         span {{showType(item.type)}}
       template(v-slot:item.isPublic="{ item }")
@@ -56,6 +61,7 @@ import { types } from '@/util/options'
 import { sectionByCourseId, sectionByParentId } from '@/api/section'
 import { knowledgeBySectionId } from '@/api/knowledge'
 import { teacherQuestion } from '@/api/teacher'
+import { questionCorrelation, questionDelete } from '@/api/question'
 import teacherMixin from '@/views/teacher/teacherMixin'
 import pageMixin from '@/mixin/pageMixin'
 import QuestionSee from './QuestionSee'
@@ -77,9 +83,6 @@ export default {
         { text: this.$i18n.t('action.key'), align: 'center', value: 'action', sortable: false }
       ]
     }
-  },
-  created () {
-    this.init()
   },
   computed: {
     public () { return this.$i18n.t(this.search.isPublic ? 'action.yes' : 'action.no') }
@@ -115,6 +118,7 @@ export default {
     queryKnowledge () {
       if (typeof (this.search.section) !== 'number') {
         this.items.knowledge = []
+        this.search.knowledge = 0
         return
       }
       this.loading.knowledge = true
@@ -141,12 +145,33 @@ export default {
       return this._.find(types, { value: value }).name
     },
     handleSee (item) {
+      if (item.questionDetail === null) {
+        item.questionDetail = {}
+      }
       if (!item.questionDetail.hasOwnProperty('option')) {
         item.questionDetail = { option: [], answer: [] }
       }
+      if (item.id !== null) {
+        questionCorrelation(item.id).then(res => {
+          this.$refs.see.knowledge = res.data
+        })
+      } else {
+        this.$refs.see.knowledge = []
+      }
+      this.$refs.see.items.chapter = this.items.chapter
+      this.$refs.see.items.section = this.items.section
+      this.$refs.see.items.knowledge = this.items.knowledge
       this.$refs.see.question = this._.cloneDeep(item)
       this.$refs.see.default = this._.cloneDeep(item)
       this.$refs.see.dialog = true
+    },
+    handleDelete (item) {
+      this.$confirm({}, () => {
+        questionDelete(item.id).then(() => {
+          this.$toast(this.$i18n.t('tip.action.success'), { type: 'success' })
+          this.handleSearch()
+        })
+      })
     },
     handleAdd () {
       this.handleSee({

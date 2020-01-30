@@ -19,7 +19,8 @@
     },
     "teacher": {
       "question": "题库管理",
-      "course": "课程管理"
+      "course": "课程管理",
+      "exam": "考试管理"
     },
     "student": {
       "course": "我的课程"
@@ -41,7 +42,8 @@
     "yes": "是",
     "no": "否",
     "back": "返回",
-    "refresh": "刷新"
+    "refresh": "刷新",
+    "newExam": "新的考试"
   },
   "entity": {
     "name": "名称",

@@ -22,7 +22,7 @@ export default new Vuex.Store({
     createVuexAlong({
       name: 'lesson-cloud', // 设置保存的集合名字，避免同站点下的多项目数据冲突
       local: {
-        list: ['base', 'auth', 'user']
+        list: ['base', 'auth', 'user', 'teacher']
       }
     })
   ]

@@ -8,16 +8,16 @@
               v-btn.mr-2(icon, x-small, fab, color="success", v-on="on", @click="handleSee(item)")
                 v-icon mdi-eye
             span {{$t('action.view')}}
-      question-management(v-else)
+      exam-management(v-else)
 </template>
 
 <script>
 import Course from '@/components/course'
-import QuestionManagement from './QuestionManagement'
+import ExamManagement from './ExamManagement'
 import teacherMixin from '@/views/teacher/teacherMixin'
 export default {
-  name: 'Question',
-  components: { Course, QuestionManagement },
+  name: 'Exam',
+  components: { Course, ExamManagement },
   mixins: [teacherMixin],
   data: () => ({
   }),
